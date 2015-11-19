@@ -184,10 +184,9 @@ void caviar_hits::compareAllHits()
 			tryGetCurrentImageQuery += "'000" + to_string(profileId) + "%'";
 			profileIdRegex = "'000" + to_string(profileId) + "%'";//
 		}
-		try{
-			string tryGetCurrentImageQueryX = "UPDATE moments SET profileId=" + to_string(profileId) + " WHERE img_id LIKE" + profileIdRegex;//
-			stmt->executeQuery(tryGetCurrentImageQueryX);
-		}
+			//string tryGetCurrentImageQueryX = "UPDATE moments SET profileId=" + to_string(profileId) + " WHERE img_id LIKE" + profileIdRegex;//
+			//stmt->executeQuery(tryGetCurrentImageQueryX);
+
 
 
 		/*
