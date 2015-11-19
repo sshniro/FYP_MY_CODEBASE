@@ -1,0 +1,25 @@
+﻿Build started 11/18/2015 10:48:08 AM.
+     1>Project "C:\AdaptiveCameraNetworkPack\CamNetPlat\Graph\Graph.vcxproj" on node 4 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I.\GeneratedFiles /I. /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include /I.\GeneratedFiles\Debug /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include\QtCoret /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include /Zi /nologo /W1 /WX- /Od /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /D GRAPH_LIB /D _WINDLL /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt graph.cpp node.cpp
+         graph.cpp
+     1>C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xmemory0(592): warning C4503: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_hint' : decorated name length exceeded, name was truncated
+                 with
+                 [
+                     _Kty=std::string
+         ,            _Ty=std::vector<std::vector<std::pair<std::string,int>,std::allocator<std::pair<std::string,int>>>,std::allocator<std::vector<std::pair<std::string,int>,std::allocator<std::pair<std::string,int>>>>>
+         ,            _Pr=std::less<std::string>
+         ,            _Alloc=std::allocator<std::pair<const std::string,std::vector<std::vector<std::pair<std::string,int>,std::allocator<std::pair<std::string,int>>>,std::allocator<std::vector<std::pair<std::string,int>,std::allocator<std::pair<std::string,int>>>>>>>
+                 ]
+         node.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\\Graph.dll" /NOLOGO /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013_64\bin /LIBPATH:C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013_64\lib qtmaind.lib Qt5Cored.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\Graph.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\Graph.lib" /MACHINE:X64 /DLL x64\Debug\graph.obj
+         x64\Debug\node.obj
+            Creating library C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\Graph.lib and object C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\Graph.exp
+         Graph.vcxproj -> C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\Graph.dll
+     1>Done Building Project "C:\AdaptiveCameraNetworkPack\CamNetPlat\Graph\Graph.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.96

@@ -1,0 +1,13 @@
+﻿Build started 9/5/2015 5:41:47 PM.
+     1>Project "C:\AdaptiveCameraNetworkPack\CamNetPlat\CamNetPlat\CamNetPlat.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0 /IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn /IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release /I"C:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1" /I"C:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver" /I"C:\AdaptiveCameraNetworkPack\mysql-server-5.7\include" /IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2 /IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv /IC:\AdaptiveCameraNetworkPack\opencv\build\include /IC:\AdaptiveCameraNetworkPack\opencv\build\include /IC:\AdaptiveCameraNetworkPack\Qt\include /I. /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include /I.\GeneratedFiles\Debug /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include\QtCore /Zi /nologo /W1 /WX- /Od /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt main.cpp
+         main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\\CamNetPlat.exe" /NOLOGO /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013_64\lib qtmaind.lib Qt5Cored.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\CamNetPlat.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\CamNetPlat.lib" /MACHINE:X64 x64\Debug\main.obj
+         CamNetPlat.vcxproj -> C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug\CamNetPlat.exe
+     1>Done Building Project "C:\AdaptiveCameraNetworkPack\CamNetPlat\CamNetPlat\CamNetPlat.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.66

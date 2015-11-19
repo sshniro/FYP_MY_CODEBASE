@@ -1,0 +1,29 @@
+﻿Build started 10/19/2015 4:41:28 PM.
+     1>Project "C:\AdaptiveCameraNetworkPack\CamNetPlat\Graph\Graph.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I.\GeneratedFiles /I. /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include /I.\GeneratedFiles\Debug /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include\QtCore /Zi /nologo /W1 /WX- /Od /Oy- /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /D GRAPH_LIB /D _WINDLL /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt graph.cpp node.cpp
+         graph.cpp
+     1>C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xmemory0(592): warning C4503: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_hint' : decorated name length exceeded, name was truncated
+                 with
+                 [
+                     _Kty=std::string
+         ,            _Ty=std::vector<std::vector<std::pair<std::string,int>,std::allocator<std::pair<std::string,int>>>,std::allocator<std::vector<std::pair<std::string,int>,std::allocator<std::pair<std::string,int>>>>>
+         ,            _Pr=std::less<std::string>
+         ,            _Alloc=std::allocator<std::pair<const std::string,std::vector<std::vector<std::pair<std::string,int>,std::allocator<std::pair<std::string,int>>>,std::allocator<std::vector<std::pair<std::string,int>,std::allocator<std::pair<std::string,int>>>>>>>
+                 ]
+         node.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\AdaptiveCameraNetworkPack\CamNetPlat\Win32\Debug\\Graph.dll" /NOLOGO /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013_64\lib qtmaind.lib Qt5Cored.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\AdaptiveCameraNetworkPack\CamNetPlat\Win32\Debug\Graph.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\AdaptiveCameraNetworkPack\CamNetPlat\Win32\Debug\Graph.lib" /MACHINE:X86 /SAFESEH /DLL Debug\graph.obj
+         Debug\node.obj
+            Creating library C:\AdaptiveCameraNetworkPack\CamNetPlat\Win32\Debug\Graph.lib and object C:\AdaptiveCameraNetworkPack\CamNetPlat\Win32\Debug\Graph.exp
+     1>graph.obj : error LNK2019: unresolved external symbol "__declspec(dllimport) public: __thiscall QMessageLogger::QMessageLogger(char const *,int,char const *)" (__imp_??0QMessageLogger@@QAE@PBDH0@Z) referenced in function "public: bool __thiscall Graph::addNeighbour(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class Node,int,int)" (?addNeighbour@Graph@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@VNode@@HH@Z)
+     1>graph.obj : error LNK2019: unresolved external symbol "__declspec(dllimport) public: class QDebug __thiscall QMessageLogger::debug(void)const " (__imp_?debug@QMessageLogger@@QBE?AVQDebug@@XZ) referenced in function "public: bool __thiscall Graph::addNeighbour(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class Node,int,int)" (?addNeighbour@Graph@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@VNode@@HH@Z)
+     1>graph.obj : error LNK2019: unresolved external symbol "__declspec(dllimport) public: __thiscall QDebug::~QDebug(void)" (__imp_??1QDebug@@QAE@XZ) referenced in function "public: bool __thiscall Graph::addNeighbour(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class Node,int,int)" (?addNeighbour@Graph@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@VNode@@HH@Z)
+     1>graph.obj : error LNK2019: unresolved external symbol "__declspec(dllimport) public: class QDebug & __thiscall QDebug::operator<<(char const *)" (__imp_??6QDebug@@QAEAAV0@PBD@Z) referenced in function "public: bool __thiscall Graph::addNeighbour(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class Node,int,int)" (?addNeighbour@Graph@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@VNode@@HH@Z)
+     1>C:\AdaptiveCameraNetworkPack\CamNetPlat\Win32\Debug\\Graph.dll : fatal error LNK1120: 4 unresolved externals
+     1>Done Building Project "C:\AdaptiveCameraNetworkPack\CamNetPlat\Graph\Graph.vcxproj" (Rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.98
