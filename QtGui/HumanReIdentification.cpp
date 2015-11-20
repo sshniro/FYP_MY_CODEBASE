@@ -101,7 +101,7 @@ int main()
 	Ptr< BackgroundSubtractor> pMOG2Pointer; //MOG2 Background subtractor
 	pMOG2Pointer = new BackgroundSubtractorMOG2(300, 32, true);//300,0.0);
 
-	string fileName = "C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG6.avi";
+	string fileName = "C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG1.avi";
 	VideoCapture stream1(fileName);  
 
 	//morphology element
@@ -112,7 +112,7 @@ int main()
 	
 	float loopCounter = 1;
 	float averageTime = 0;
-	int skippedFrames = 3400;
+	int skippedFrames = 2000;
 	int count = 0;
 	for (int i = 0; i < skippedFrames; i++)
 	{

@@ -24,12 +24,12 @@
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{a5cdd6b4-fb54-48c7-ac87-46cbcadcc407}</UniqueIdentifier>
+      <UniqueIdentifier>{ad93e83d-6827-4777-9576-00a63a2fbb10}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{9ac164d8-0af8-4218-9730-b9e867d482d1}</UniqueIdentifier>
+      <UniqueIdentifier>{33746f66-7f92-4a0c-b68c-242eadb42d19}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -38,32 +38,32 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="videogeneration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_videogeneration.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_videogeneration.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_videogeneration.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="generatevideo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_generatevideo.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_generatevideo.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="videogeneration.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="videogeneration.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="videogeneration.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="generatevideo.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="generatevideo.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_generatevideo.h">
+    <ClInclude Include="GeneratedFiles\ui_videogeneration.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

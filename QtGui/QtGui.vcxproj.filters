@@ -44,12 +44,6 @@
     <ClCompile Include="GeneratedFiles\qrc_qtgui.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Projects\FYP\adaptive-camera-network\BackupCode\moments.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Projects\FYP\adaptive-camera-network\BackupCode\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CalculateMoments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ManipulateCaviarData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="moments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

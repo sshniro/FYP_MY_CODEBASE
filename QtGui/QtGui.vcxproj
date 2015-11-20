@@ -137,8 +137,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Projects\FYP\adaptive-camera-network\BackupCode\main.cpp" />
-    <ClCompile Include="..\..\..\Projects\FYP\adaptive-camera-network\BackupCode\moments.cpp" />
     <ClCompile Include="CaviarReid.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_qtgui.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -160,7 +158,9 @@
     </ClCompile>
     <ClCompile Include="CalculateMoments.cpp" />
     <ClCompile Include="HumanReIdentification.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ManipulateCaviarData.cpp" />
+    <ClCompile Include="moments.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="qtgui.h">
