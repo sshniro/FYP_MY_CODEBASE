@@ -35,15 +35,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeneratedFiles\Debug\moc_qtgui.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_qtgui.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_qtgui.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="CalculateMoments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -62,20 +53,26 @@
     <ClCompile Include="moments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="videopanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_videopanel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_videopanel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="qtgui.h">
+    <CustomBuild Include="videopanel.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="qtgui.ui">
+    <CustomBuild Include="videopanel.ui">
       <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="qtgui.qrc">
-      <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_qtgui.h">
+    <ClInclude Include="GeneratedFiles\ui_videopanel.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
