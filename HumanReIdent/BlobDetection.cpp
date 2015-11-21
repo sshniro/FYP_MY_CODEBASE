@@ -35,10 +35,11 @@ vector< vector< Point> > BlobDetection::detectContours(Mat frame, Ptr< Backgroun
 	//Background subtraction
 	pMOG2->operator()(frame, fgMaskMOG2X, -1);
 	morphologyEx(fgMaskMOG2X, frame, CV_MOP_CLOSE, element);
+	imshow("ShadowNotRemoved", frame);
 	//imshow("Testing 0", frame);
-	threshold(frame, frame, 100, 180, CV_THRESH_BINARY);
+	//threshold(frame, frame, 100, 180, CV_THRESH_BINARY);
 
-
+	imshow("ShadowRemoved", frame);
 	//Find contour
 	ContourImg = frame.clone();
 	//imshow("Testing 1", frame);

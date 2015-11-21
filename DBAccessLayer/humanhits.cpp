@@ -103,3 +103,47 @@ HumanHits::~HumanHits()
 {
 
 }
+
+vector<string> stringSplit(string s, string delimiter = " "){
+
+	vector<string> splittedStrings;
+	size_t pos = 0;
+	std::string token;
+	while ((pos = s.find(delimiter)) != std::string::npos) {
+		token = s.substr(0, pos);
+		//std::cout << token << std::endl;
+		splittedStrings.push_back(token);
+		s.erase(0, pos + delimiter.length());
+
+	}
+	splittedStrings.push_back(s);
+	return splittedStrings;
+}
+
+vector<Profile> HumanHits::getAllProfilesInSecond(string absoluteTime, string cameraNode)
+{
+	vector<Profile> profiles;
+	driver = sql::mysql::get_mysql_driver_instance();
+	con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
+
+	stmt = con->createStatement();
+	stmt->execute("USE camera");
+	string query = "select profile_id, timestamp  from " + cameraNode +" where TimeStamp = "+ absoluteTime;
+	// select profile_id, timestamp from camera_node_22 where TimeStamp = 1.54;
+	ResultSet *profileResult = stmt->executeQuery(query);
+	while (profileResult->next())
+	{
+		Profile prf;
+		prf.profileId = profileResult->getString("profile_id");
+		vector<string> coord = stringSplit(profileResult->getString("timestamp"),",");
+		prf.centreX = stoi(coord[0]);
+		prf.centreY = stoi(coord[1]);
+		profiles.push_back(prf);
+	}
+
+	delete con;
+	delete stmt;
+
+	return profiles;
+
+}

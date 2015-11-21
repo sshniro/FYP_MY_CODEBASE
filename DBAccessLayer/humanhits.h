@@ -22,9 +22,17 @@
 using namespace sql;
 using namespace mysql;
 using namespace std;
+
+struct Profile{
+	string profileId;
+	int centreX;
+	int centreY;
+}; 
+
 class DBACCESSLAYER_EXPORT HumanHits
 {
 	public:
+		
 		HumanHits();
 		HumanHits(MySQL_Driver *driver, Connection *con);
 		~HumanHits();
@@ -32,7 +40,8 @@ class DBACCESSLAYER_EXPORT HumanHits
 		void addHumanHit(string id, string path, string hit_id, double av0, double av1, double av2, double stdDev0, double stdDev1, double stdDev2, double skew0, double skew1, double skew2);
 		void addHumanHit(Blob *blob);
 		void addHumanHit(string hitId, string regionId, MomentAverage *momentAverage, MomentStandardDeviation *momentStandardDev, MomentSkewness *momentSkeww);
-
+		
+		vector<Profile> getAllProfilesInSecond(string absoluteTime, string cameraNode);
 
 
 	private:

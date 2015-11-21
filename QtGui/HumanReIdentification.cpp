@@ -33,6 +33,8 @@
 #include <opencv2/video/background_segm.hpp>
 
 #include "BlobDetection.h"
+#include "humanhits.h"
+
 
 #include <stdio.h>
 #include <time.h>
@@ -51,6 +53,10 @@ Mat savedImage;
 Mat savedHist;
 RNG rng(12345);
 
+struct BlobId{
+	Mat blob;
+	string Id;
+};
 ///Removes any dir if exists
 void make_directory(QString path);
 
@@ -78,7 +84,16 @@ void make_directory(QString path){
 Mat frame; //current frame
 
 int frameCounter = 0;
-int mainX()
+
+vector<BlobId> matchProfilesWithBlobs(vector<Point> contour, string absoluteTime, string cameraNode){
+	HumanHits hh;
+	vector<Profile> profiles = hh.getAllProfilesInSecond(absoluteTime, cameraNode);
+	for (Point blob : contour)
+	{
+
+	}
+}
+int main()
 {
 	BlobDetection blb;
 	
@@ -101,151 +116,168 @@ int mainX()
 	Ptr< BackgroundSubtractor> pMOG2Pointer; //MOG2 Background subtractor
 	pMOG2Pointer = new BackgroundSubtractorMOG2(300, 32, true);//300,0.0);
 
-	string fileName = "E:/Final Year/project/human tracking/coding/Videos/PRG6.avi";
-	VideoCapture stream1(fileName);  
+	string paths[] = { "C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG1.avi", 
+						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG6.avi",
+						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG7.avi",
+						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG14.avi" ,
+						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG22.avi" ,
+						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG23.avi" ,
+						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG28.avi",
+						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG29.avi" };
+	for (string path : paths){
 
-	//morphology element
-	Mat element = getStructuringElement(MORPH_RECT, Size(7, 7), Point(3, 3));
-	bool flag = true;
+		string fileName = path;
 
+		VideoCapture stream1(fileName);
 
-	
-	float loopCounter = 1;
-	float averageTime = 0;
-	int skippedFrames = 3400;
-	int count = 0;
-	for (int i = 0; i < skippedFrames; i++)
-	{
-		stream1.grab();
-
-	}
-	while (true) {
+		//morphology element
+		Mat element = getStructuringElement(MORPH_RECT, Size(7, 7), Point(3, 3));
+		bool flag = true;
 
 
-		clock_t t = clock();
-		if (!(stream1.read(frame))) 
-			break;
 
-		vector< vector< Point> > contours;
-		BlobDetection blbDetect;
-		resize(frame, frame, Size(frame.size().width, frame.size().height));
-
-		Mat originalFrame = frame.clone();
-		//imshow("Original", frame);
-		contours = blbDetect.detectContours(frame,pMOG2Pointer, fgMaskMOG2);
-		Rect roi;
-		vector<vector<Point> >hulls;
-		vector< vector< Point> > filteredContours;
-
-	
-		while (contours.size() != 0)
+		float loopCounter = 1;
+		float averageTime = 0;
+		int skippedFrames = 2000;
+		int count = 0;
+		for (int i = 0; i < skippedFrames; i++)
 		{
-			vector<Point> contour = contours[contours.size() - 1];
-			if (blbDetect.isQualifyingContour(contour))
+			stream1.grab();
+
+		}
+		while (true) {
+
+
+			clock_t t = clock();
+			if (!(stream1.read(frame)))
+				break;
+
+			vector< vector< Point> > contours;
+			BlobDetection blbDetect;
+			resize(frame, frame, Size(frame.size().width, frame.size().height));
+
+			Mat originalFrame = frame.clone();
+			//imshow("Original", frame);
+			contours = blbDetect.detectContours(frame, pMOG2Pointer, fgMaskMOG2);
+			Rect roi;
+			vector<vector<Point> >hulls;
+			vector< vector< Point> > filteredContours;
+
+
+			while (contours.size() != 0)
 			{
-				vector<Point> tempHull;
-				convexHull(Mat(contour), tempHull, false);
-				hulls.push_back(tempHull);
-				filteredContours.push_back(contour);
-			}
-			contours.pop_back();
-		}
-
-		//Draw the hull borders and fill in white to create the "hullDrawing" mask 
-		Mat drawnOnOriginal = frame.clone();
-		Mat hullDrawing(frame.size(), CV_8UC3);
-		floodFill(hullDrawing, Point(), Scalar(255, 255, 255));
-		for (int i = 0; i< filteredContours.size(); i++)
-		{
-			Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-			drawContours(hullDrawing, hulls, i, color, 1, 8, vector<Vec4i>(), 0, Point());
-			drawContours(drawnOnOriginal, hulls, i, color, 1, 8, vector<Vec4i>(), 0, Point());
-		}
-
-		vector< vector< Point> >::iterator itc = filteredContours.begin();
-		while (itc != filteredContours.end()) {
-
-			//Create bounding rect of object
-			//rect draw on origin image
-			Rect mr = boundingRect(Mat(*itc));
-			//Mat window(mr.height,originalImage.width,CV_8UC3,Scalar(255));
-			rectangle(drawnOnOriginal, mr ,CV_RGB(255, 0, 0),3);
-			++itc;
-		}
-		floodFill(hullDrawing, Point(), Scalar(0, 0, 0));
-		imshow("DrawnOnOri", drawnOnOriginal);
-		cvWaitKey(1);
-
-		for (int i = 0; i < filteredContours.size(); i++)
-
-		{
-			roi = boundingRect(filteredContours[i]);
-			Mat imageHullCrop;
-			//Copy the relevant pixels
-			//representation of the hull drawing 
-			originalFrame.copyTo(imageHullCrop, hullDrawing); // 'image' is the image you used to compute the contours.
-
-			imshow("convexBlob", imageHullCrop);
-			imshow("convexBlMask", hullDrawing);
-			imshow("DrawnOnOri", drawnOnOriginal);
-
-			//Crop the region of interest
-			Mat convexBlob = imageHullCrop(roi);
-			Mat convexBlobMask = hullDrawing(roi);
-			Mat rectBlob = originalFrame(roi);
-
-			namedWindow("convexBlob", CV_WINDOW_KEEPRATIO);
-			namedWindow("convexBlMask", CV_WINDOW_KEEPRATIO);
-			namedWindow("rectBlob", CV_WINDOW_KEEPRATIO);
-
-			//imshow("convexBlob", convexBlob);
-			//imshow("convexBlMask", convexBlobMask);
-			//imshow("rectBlob", rectBlob);
-			cvWaitKey(1);
-			time_t seconds;
-			time(&seconds);
-			stringstream ss;
-			ss << seconds;
-			string ts = ss.str();
-			double heightToWidthRatio = static_cast<double>(roi.height) / static_cast<double>(roi.width);
-			if (roi.width > 30 && roi.width < 100 && roi.height>30 || true)
-			{
-				if (heightToWidthRatio > 1.3 || true)
+				vector<Point> contour = contours[contours.size() - 1];
+				if (blbDetect.isQualifyingContour(contour))
 				{
-					string number = "";
+					vector<Point> tempHull;
+					convexHull(Mat(contour), tempHull, false);
+					hulls.push_back(tempHull);
+					filteredContours.push_back(contour);
+				}
+				contours.pop_back();
+			}
 
-					if (count < 10){
-						number = "000"+  to_string(count);
+			//Draw the hull borders and fill in white to create the "hullDrawing" mask 
+			Mat drawnOnOriginal = frame.clone();
+			Mat hullDrawing(frame.size(), CV_8UC3);
+			floodFill(hullDrawing, Point(), Scalar(255, 255, 255));
+			for (int i = 0; i < filteredContours.size(); i++)
+			{
+				Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+				drawContours(hullDrawing, hulls, i, color, 1, 8, vector<Vec4i>(), 0, Point());
+				drawContours(drawnOnOriginal, hulls, i, color, 1, 8, vector<Vec4i>(), 0, Point());
+			}
 
-					}
-					else if (count < 100){
-						number = "00" + to_string(count);
-					}
-					else if (count < 1000){
-						number = "0" + to_string(count);
+			vector< vector< Point> >::iterator itc = filteredContours.begin(); 
+			vector<Rect> currentlyDetectedblobs;
+			while (itc != filteredContours.end()) {
+
+				//Create bounding rect of object
+				//rect draw on origin image
+				Rect mr = boundingRect(Mat(*itc));
+				currentlyDetectedblobs.push_back(mr);
+				//Mat window(mr.height,originalImage.width,CV_8UC3,Scalar(255));
+				rectangle(drawnOnOriginal, mr, CV_RGB(255, 0, 0), 3);
+				++itc;
+			}
+
+			Mat matchProfilesWithBlobs();
+
+			floodFill(hullDrawing, Point(), Scalar(0, 0, 0));
+			imshow("DrawnOnOri", drawnOnOriginal);
+			cvWaitKey(1);
+
+			for (int i = 0; i < filteredContours.size(); i++)
+
+			{
+				roi = boundingRect(filteredContours[i]);
+				Mat imageHullCrop;
+				//Copy the relevant pixels
+				//representation of the hull drawing 
+				originalFrame.copyTo(imageHullCrop, hullDrawing); // 'image' is the image you used to compute the contours.
+
+				imshow("convexBlob", imageHullCrop);
+				imshow("convexBlMask", hullDrawing);
+				imshow("DrawnOnOri", drawnOnOriginal);
+
+				//Crop the region of interest
+				Mat convexBlob = imageHullCrop(roi);
+				Mat convexBlobMask = hullDrawing(roi);
+				Mat rectBlob = originalFrame(roi);
+
+				namedWindow("convexBlob", CV_WINDOW_KEEPRATIO);
+				namedWindow("convexBlMask", CV_WINDOW_KEEPRATIO);
+				namedWindow("rectBlob", CV_WINDOW_KEEPRATIO);
+
+				//imshow("convexBlob", convexBlob);
+				//imshow("convexBlMask", convexBlobMask);
+				//imshow("rectBlob", rectBlob);
+				cvWaitKey(1);
+				time_t seconds;
+				time(&seconds);
+				stringstream ss;
+				ss << seconds;
+				string ts = ss.str();
+				double heightToWidthRatio = static_cast<double>(roi.height) / static_cast<double>(roi.width);
+				if (roi.width > 30 && roi.width < 100 && roi.height>30)
+				{
+					if (heightToWidthRatio > 1.3)
+					{
+						string number = "";
+
+						if (count < 10){
+							number = "000" + to_string(count);
+
+						}
+						else if (count < 100){
+							number = "00" + to_string(count);
+						}
+						else if (count < 1000){
+							number = "0" + to_string(count);
+						}
+						else{
+							number = to_string(count);
+						}
+						string pathConvex = "C:\\Projects\\Output\\file1\\correct\\img_convex_" + number + ".jpg";
+						string pathConvexMask = "C:\\Projects\\Output\\file1\\correct\\cmask\\img_cmask_" + number + ".jpg";
+						string pathBox = "C:\\Projects\\Output\\file1\\correct\\box\\img_box_" + number + ".jpg";
+						string pathFrame = "C:\\Projects\\Output\\file1\\correct\\frame\\img_frame_" + number + ".jpg";
+
+						count++;
+						imwrite(pathConvex, convexBlob);
+						imwrite(pathConvexMask, convexBlobMask);
+						imwrite(pathBox, rectBlob);
+						imwrite(pathFrame, originalFrame);
+
 					}
 					else{
-						number = to_string(count);
+						imwrite("C:\\Projects\\Output\\file1\\non\\" + ts + to_string(i) + ".jpg", convexBlob);
+
+
 					}
-					string pathConvex = "C:\\Projects\\Output\\file1\\correct\\img_convex_" + number + ".jpg";
-					string pathConvexMask = "C:\\Projects\\Output\\file1\\correct\\cmask\\img_cmask_" + number + ".jpg";
-					string pathBox = "C:\\Projects\\Output\\file1\\correct\\box\\img_box_" + number + ".jpg";
-					string pathFrame = "C:\\Projects\\Output\\file1\\correct\\frame\\img_frame_" + number + ".jpg";
-
-					count++;
-					imwrite(pathConvex, convexBlob);
-					imwrite(pathConvexMask, convexBlobMask);
-					imwrite(pathBox, rectBlob);
-					imwrite(pathFrame, originalFrame);
-					
 				}
-				else{
-					imwrite("C:\\Projects\\Output\\file1\\non\\" + ts + to_string(i) + ".jpg", convexBlob);
 
-
-				}
 			}
-
 		}
 	}
 	return 0;
