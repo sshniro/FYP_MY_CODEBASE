@@ -59,6 +59,7 @@ namespace models
 	public:
 		HumanBlob();
 		HumanBlob(models::Blob superBlob);
+		bool operator==(const HumanBlob& human);
 		~HumanBlob();
 	
 		Blob blob;

@@ -22,7 +22,7 @@
 #include <opencv2\video\tracking.hpp>
 #include <opencv2\video\background_segm.hpp>
 
-#include "Graph.h"
+//#include "Graph.h"
 //#include "Models.h"
 #include "VideoProcessing.h"
 
@@ -143,11 +143,12 @@ unsigned int __stdcall threadForNode(void* data)
 		// blob detection
 		if (_vProcessing.BlobDetection(&frame, &blobs) == 0)
 		{
-			imshow(currentNodePtr->Id.c_str(), frame);
+			string x = currentNodePtr->Id.c_str();
+			imshow(x, frame);
 			continue;	// If no blobs detected continue while
 		}
 
-		if (!trackingHumanBlobs.empty())	// if no human blobs tracked yet
+		if (trackingHumanBlobs.empty())	// if no human blobs tracked yet
 		{
 			unidentifiedBlobs = blobs;	// all blobs are unindentified
 		}
@@ -163,22 +164,25 @@ unsigned int __stdcall threadForNode(void* data)
 			_vProcessing.DataAssociation(&blobs, &trackingHumanBlobs, &unidentifiedBlobs, &missingHumanBlobs);
 		}
 
-		// send unidentified blobs to human recognition
-		_vProcessing.HumanDetection(&unidentifiedBlobs, &frame, &humanBlobs);
+		if (!(unidentifiedBlobs.empty()))
+		{
+			_vProcessing.HumanDetection(&unidentifiedBlobs, &frame, &humanBlobs);
+		}
 
 		if (!(humanBlobs.empty()))
 		{
-			//_vProcessing.CheckInProfiles(&humanBlobs, &possibleProfileList, &missingHumanBlobs, &trackingHumanBlobs);
+			_vProcessing.CheckInProfiles(&humanBlobs, &possibleProfileList, &missingHumanBlobs, &trackingHumanBlobs);
 		}
+
 		if (!(humanBlobs.empty()))
 		{
-			//_vProcessing.InitTrackingObject(&humanBlobs, &trackingHumanBlobs);
+			_vProcessing.InitTrackingObject(&humanBlobs, &trackingHumanBlobs);
 		}
 
 		if (!(trackingHumanBlobs.empty()))
 		{
-			//_vProcessing.KalmanCorrectAndPredict(&trackingHumanBlobs);
-			//_vProcessing.InformAdjecentNodes(&exitPoints, &trackingHumanBlobs);
+			_vProcessing.KalmanCorrectAndPredict(&trackingHumanBlobs);
+			_vProcessing.InformAdjecentNodes(&exitPoints, &trackingHumanBlobs);
 			//_vProcessing.UpdateCentralProfiles(&trackingHumanBlobs);
 		}
 
@@ -244,7 +248,11 @@ unsigned int __stdcall threadForNode(void* data)
 		//	rectangle(frame, boundRect[i].tl(), boundRect[i].br(), Scalar(255, 255, 0), 2, 8, 0);// scalar is for Bounding Box
 		//}
 
-		imshow(currentNodePtr->Id.c_str(), frame);
+
+
+
+		string strForImshow2 = currentNodePtr->Id.c_str();
+		imshow(strForImshow2, frame);
 	}
 	// end opencv video tracking
 

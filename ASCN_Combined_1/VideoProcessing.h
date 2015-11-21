@@ -4,6 +4,7 @@
 #include <opencv2\video\tracking.hpp>
 #include <opencv2\video\background_segm.hpp>
 #include "Models.h"
+#include "Graph.h"
 
 // blob detection
 // in	: *frame
@@ -39,6 +40,12 @@ public:
 		vector<models::HumanBlob> *possibleList, 
 		vector<models::MissingHumanBlob> *missingList, 
 		vector<models::HumanBlob> *trackingList);
+
+	void InitTrackingObject(vector<models::HumanBlob> *humanList, vector<models::HumanBlob> *trackingList);
+
+	void KalmanCorrectAndPredict(vector<models::HumanBlob> *trackingList);
+
+	void InformAdjecentNodes(vector<graph::ExitPoint> *exitsList, vector<models::HumanBlob> *trackingList);
 
 	~VideoProcessing();
 

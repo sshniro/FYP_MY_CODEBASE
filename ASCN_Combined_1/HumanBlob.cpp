@@ -37,4 +37,12 @@ HumanBlob::HumanBlob(models::Blob superBlob)
 	
 }
 
+bool HumanBlob::operator==(const HumanBlob& human)
+{
+	if (this->profileID == human.profileID)
+		return true;
+	else
+		return false;
+}
+
 HumanBlob::~HumanBlob(){};

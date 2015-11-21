@@ -46,7 +46,7 @@ void VideoProcessing::DataAssociation(
 
 }
 
-void CheckInProfiles(
+void VideoProcessing::CheckInProfiles(
 	vector<models::HumanBlob> *humanList,
 	vector<models::HumanBlob> *possibleList,
 	vector<models::MissingHumanBlob> *missingList,
@@ -55,6 +55,56 @@ void CheckInProfiles(
 	// first check in possible profile list if not find in missing list
 	// update the tracking list and possible list and missing list
 	// send unidentified human list
+
+	for (size_t i = 0; i < humanList->size(); i++)
+	{
+		trackingList->push_back(humanList->at(i));
+	}
+}
+
+void VideoProcessing::InitTrackingObject(vector<models::HumanBlob> *humanList, vector<models::HumanBlob> *trackingList)
+{
+	bool temp = false;
+	for (size_t i = 0; i < humanList->size(); i++)
+	{
+		for (size_t j = 0; j < trackingList->size(); j++)
+		{
+			if (humanList->at(i) == trackingList->at(j))
+			{
+				temp = true;
+				continue;
+			}
+		}
+		if (!temp)
+		{
+			trackingList->push_back(humanList->at(i));
+		}
+		temp = false;
+	}
+}
+
+void VideoProcessing::KalmanCorrectAndPredict(vector<models::HumanBlob> *trackingList)
+{
+	Mat_<float> mesurement(2,1);
+	mesurement.setTo(Scalar(0));
+	Point temp;
+	for (size_t i = 0; i < trackingList->size(); i++)
+	{
+		// Kalman Correct
+		temp = trackingList->at(i).centerPointList.back();
+		mesurement(0) = temp.x;
+		mesurement(1) = temp.y;
+		trackingList->at(i).kalmanFilter.correct(mesurement);
+		mesurement.empty();
+
+		// Kalman Predict
+		trackingList->at(i).kalmanFilter.predict();
+	}
+}
+
+void VideoProcessing::InformAdjecentNodes(vector<graph::ExitPoint> *exitsList, vector<models::HumanBlob> *trackingList)
+{
+
 }
 
 VideoProcessing::~VideoProcessing(){}
