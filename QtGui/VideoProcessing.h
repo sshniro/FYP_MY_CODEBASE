@@ -5,6 +5,7 @@
 #include <opencv2\video\background_segm.hpp>
 #include "Models.h"
 #include <Graph.h>
+#include "BlobDetection.h"
 
 // blob detection
 // in	: *frame
@@ -26,34 +27,32 @@ class VideoProcessing
 {
 public:
 	VideoProcessing();
-	int BlobDetection(Mat *frame, vector<models::Blob> *outBlobs);
-	int HumanDetection(vector<models::Blob> *blobs, Mat *frame, vector<models::HumanBlob> *outHumanBlobs);
+	int blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, Mat mask, vector<models::Blob> *outBlobs);
+	int humanDetection(vector<models::Blob> *blobs, Mat *frame, vector<models::HumanBlob> *outHumanBlobs);
 
-	void DataAssociation(
+	void dataAssociation(
 		vector<models::Blob> *blobs,
 		vector<models::HumanBlob> *trackingHumanBlobs,
 		vector<models::Blob> *outUnidentifiedBlobs,
 		vector<models::MissingHumanBlob> *outMissingHumanBlobs);
 
-	void CheckInProfiles(
+	void checkInProfiles(
 		vector<models::HumanBlob> *humanList,
 		vector<models::HumanBlob> *possibleList,
 		vector<models::MissingHumanBlob> *missingList,
 		vector<models::HumanBlob> *trackingList);
 
-	void InitTrackingObject(vector<models::HumanBlob> *humanList, vector<models::HumanBlob> *trackingList);
+	void initTrackingObject(vector<models::HumanBlob> *humanList, vector<models::HumanBlob> *trackingList);
 
-	void KalmanCorrectAndPredict(vector<models::HumanBlob> *trackingList);
+	void kalmanCorrectAndPredict(vector<models::HumanBlob> *trackingList);
 
-	void InformAdjecentNodes(vector<graph::ExitPoint> *exitsList, vector<models::HumanBlob> *trackingList);
+	void informAdjecentNodes(vector<graph::ExitPoint> *exitsList, vector<models::HumanBlob> *trackingList);
 
 	~VideoProcessing();
 
 private:
-	Mat thresh_frame;
-	Ptr<BackgroundSubtractor> backSubPtr = new BackgroundSubtractorMOG2(300, 32, true);
 	Mat morpho_ele = getStructuringElement(MORPH_RECT, Size(7, 7), Point(3, 3));
-
+	BlobDetection blbDetect;
 protected:
 
 };

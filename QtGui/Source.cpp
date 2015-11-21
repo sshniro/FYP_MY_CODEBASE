@@ -116,6 +116,8 @@ unsigned int __stdcall threadForNode(void* data)
 	Mat drawing = Mat::zeros(frame.size(), CV_8UC1);
 
 	VideoProcessing _vProcessing = VideoProcessing();
+	Mat fgMaskMOG2;
+	Ptr<BackgroundSubtractor> pMOG2 = new BackgroundSubtractorMOG2(300, 32, true);
 
 	if (!(videoCapture.read(frame)))
 	{
@@ -126,10 +128,10 @@ unsigned int __stdcall threadForNode(void* data)
 	while (waitKey(10) != 27 && videoCapture.grab()) // terminate when ESC pressed
 	{
 		videoCapture.read(frame);
-		if (frame.size().width > 1360 || frame.size().height > 760)
+		/*if (frame.size().width > 1360 || frame.size().height > 760)
 		{
 			resize(frame, frame, Size(frame.size().width / 2, frame.size().height / 2));
-		}
+		}*/
 
 		// clear local vectors
 		blobs.clear();
@@ -141,7 +143,7 @@ unsigned int __stdcall threadForNode(void* data)
 		/////////
 
 		// blob detection
-		if (_vProcessing.BlobDetection(&frame, &blobs) == 0)
+		if (_vProcessing.blobDetection(frame, pMOG2, fgMaskMOG2, &blobs) == 0)
 		{
 			string x = currentNodePtr->Id.c_str();
 			imshow(x, frame);
@@ -154,35 +156,28 @@ unsigned int __stdcall threadForNode(void* data)
 		}
 		else	// if there are human blobs tracked in previous frames
 		{
-			// send &current_human_blobs_tracked and &blobs_detected_in_this_frame
-			// and map existing human blobs with new set of blobs using GNN or Hungarian Algorithm and 
-			// update &human_blobs as well as Profiles in central storage
-			// missing blobs from data association goes to &unidentified_blobs
-			// unmpped human blobs goes to &missing_human_blobs
-			//mapPredictedWithCurrentPoints(&human_blobs, &blobs, &missing_human_blobs, &unidentified_blobs);
-			// // with UpdatingKalmanForAllHumanObjects
-			_vProcessing.DataAssociation(&blobs, &trackingHumanBlobs, &unidentifiedBlobs, &missingHumanBlobs);
+			_vProcessing.dataAssociation(&blobs, &trackingHumanBlobs, &unidentifiedBlobs, &missingHumanBlobs);
 		}
 
 		if (!(unidentifiedBlobs.empty()))
 		{
-			_vProcessing.HumanDetection(&unidentifiedBlobs, &frame, &humanBlobs);
+			_vProcessing.humanDetection(&unidentifiedBlobs, &frame, &humanBlobs);
 		}
 
 		if (!(humanBlobs.empty()))
 		{
-			_vProcessing.CheckInProfiles(&humanBlobs, &possibleProfileList, &missingHumanBlobs, &trackingHumanBlobs);
+			_vProcessing.checkInProfiles(&humanBlobs, &possibleProfileList, &missingHumanBlobs, &trackingHumanBlobs);
 		}
 
 		if (!(humanBlobs.empty()))
 		{
-			_vProcessing.InitTrackingObject(&humanBlobs, &trackingHumanBlobs);
+			_vProcessing.initTrackingObject(&humanBlobs, &trackingHumanBlobs);
 		}
 
 		if (!(trackingHumanBlobs.empty()))
 		{
-			_vProcessing.KalmanCorrectAndPredict(&trackingHumanBlobs);
-			_vProcessing.InformAdjecentNodes(&exitPoints, &trackingHumanBlobs);
+			_vProcessing.kalmanCorrectAndPredict(&trackingHumanBlobs);
+			_vProcessing.informAdjecentNodes(&exitPoints, &trackingHumanBlobs);
 			//_vProcessing.UpdateCentralProfiles(&trackingHumanBlobs);
 		}
 
