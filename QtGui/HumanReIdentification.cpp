@@ -78,7 +78,7 @@ void make_directory(QString path){
 Mat frame; //current frame
 
 int frameCounter = 0;
-int main()
+int mainX()
 {
 	BlobDetection blb;
 	
@@ -101,11 +101,7 @@ int main()
 	Ptr< BackgroundSubtractor> pMOG2Pointer; //MOG2 Background subtractor
 	pMOG2Pointer = new BackgroundSubtractorMOG2(300, 32, true);//300,0.0);
 
-<<<<<<< HEAD
 	string fileName = "E:/Final Year/project/human tracking/coding/Videos/PRG6.avi";
-=======
-	string fileName = "C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG1.avi";
->>>>>>> d59a451df174fb0bf4251c9f8c47cf5767fe00c7
 	VideoCapture stream1(fileName);  
 
 	//morphology element
@@ -116,11 +112,7 @@ int main()
 	
 	float loopCounter = 1;
 	float averageTime = 0;
-<<<<<<< HEAD
 	int skippedFrames = 3400;
-=======
-	int skippedFrames = 2000;
->>>>>>> d59a451df174fb0bf4251c9f8c47cf5767fe00c7
 	int count = 0;
 	for (int i = 0; i < skippedFrames; i++)
 	{
