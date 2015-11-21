@@ -25,7 +25,7 @@ int VideoProcessing::HumanDetection(vector<models::Blob> *blobs, Mat *frame, vec
 		if (contourArea((*blobs)[i].getContour()) > 100)
 		{
 			outHumanBlobs->push_back(models::HumanBlob(blobs->at(i)));
-			blobs->erase(blobs->begin()+i);
+			blobs->erase(blobs->begin() + i);
 		}
 	}
 	return (*outHumanBlobs).size();
@@ -85,7 +85,7 @@ void VideoProcessing::InitTrackingObject(vector<models::HumanBlob> *humanList, v
 
 void VideoProcessing::KalmanCorrectAndPredict(vector<models::HumanBlob> *trackingList)
 {
-	Mat_<float> mesurement(2,1);
+	Mat_<float> mesurement(2, 1);
 	mesurement.setTo(Scalar(0));
 	Point temp;
 	for (size_t i = 0; i < trackingList->size(); i++)

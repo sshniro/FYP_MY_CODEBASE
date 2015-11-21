@@ -100,7 +100,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\AdaptiveCameraNetworkPack\CamNetPlat\Graph;C:\AdaptiveCameraNetworkPack\opencv\build\include;C:\AdaptiveCameraNetworkPack\opencv\build\include\opencv;C:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2;C:\Qt\Qt5.5.0\5.5\msvc2013_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\AdaptiveCameraNetworkPack\boost_1_57_0;C:\AdaptiveCameraNetworkPack\CamNetPlat\Graph;C:\AdaptiveCameraNetworkPack\opencv\build\include;C:\AdaptiveCameraNetworkPack\opencv\build\include\opencv;C:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2;C:\Qt\Qt5.5.0\5.5\msvc2013_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

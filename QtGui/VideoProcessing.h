@@ -4,7 +4,7 @@
 #include <opencv2\video\tracking.hpp>
 #include <opencv2\video\background_segm.hpp>
 #include "Models.h"
-#include "Graph.h"
+#include <Graph.h>
 
 // blob detection
 // in	: *frame
@@ -30,15 +30,15 @@ public:
 	int HumanDetection(vector<models::Blob> *blobs, Mat *frame, vector<models::HumanBlob> *outHumanBlobs);
 
 	void DataAssociation(
-		vector<models::Blob> *blobs, 
-		vector<models::HumanBlob> *trackingHumanBlobs, 
+		vector<models::Blob> *blobs,
+		vector<models::HumanBlob> *trackingHumanBlobs,
 		vector<models::Blob> *outUnidentifiedBlobs,
 		vector<models::MissingHumanBlob> *outMissingHumanBlobs);
 
 	void CheckInProfiles(
-		vector<models::HumanBlob> *humanList, 
-		vector<models::HumanBlob> *possibleList, 
-		vector<models::MissingHumanBlob> *missingList, 
+		vector<models::HumanBlob> *humanList,
+		vector<models::HumanBlob> *possibleList,
+		vector<models::MissingHumanBlob> *missingList,
 		vector<models::HumanBlob> *trackingList);
 
 	void InitTrackingObject(vector<models::HumanBlob> *humanList, vector<models::HumanBlob> *trackingList);

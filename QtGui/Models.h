@@ -8,8 +8,8 @@ using namespace cv;
 
 namespace models
 {
-//#ifndef TrackingObject_HEADER
-//#define TrackingObject_HEADER
+	//#ifndef TrackingObject_HEADER
+	//#define TrackingObject_HEADER
 	class TrackingObject
 	{
 	public:
@@ -28,10 +28,10 @@ namespace models
 		KalmanFilter kalmanFilter; // kalman filter object for the current human blob
 		int paneltyIndex; // count of consecutive frames that blob doesn't appear
 	};
-//#endif
+	//#endif
 
-//#ifndef Blob_HEADER
-//#define Blob_HEADER
+	//#ifndef Blob_HEADER
+	//#define Blob_HEADER
 	class Blob
 	{
 	public:
@@ -50,10 +50,10 @@ namespace models
 		Moments mu;
 		Point2f mc;
 	};
-//#endif
+	//#endif
 
-//#ifndef HumanBlob_HEADER
-//#define HumanBlob_HEADER
+	//#ifndef HumanBlob_HEADER
+	//#define HumanBlob_HEADER
 	class HumanBlob
 	{
 	public:
@@ -61,25 +61,25 @@ namespace models
 		HumanBlob(models::Blob superBlob);
 		bool operator==(const HumanBlob& human);
 		~HumanBlob();
-	
+
 		Blob blob;
 		vector<Point> centerPointList;
 		KalmanFilter kalmanFilter;
 		int profileID;
 	};
-//#endif
+	//#endif
 
-//#ifndef MissingHunamBlob_HEADER
-//#define MissingHunamBlob_HEADER
+	//#ifndef MissingHunamBlob_HEADER
+	//#define MissingHunamBlob_HEADER
 	class MissingHumanBlob
 	{
 	public:
 		MissingHumanBlob();
 		MissingHumanBlob(models::HumanBlob superHumanBlob);
 		~MissingHumanBlob();
-	
+
 		HumanBlob humanBlob;
 		time_t missedTime;
 	};
-//#endif
+	//#endif
 }

@@ -34,7 +34,7 @@ HumanBlob::HumanBlob(models::Blob superBlob)
 	setIdentity(KF.errorCovPost, Scalar::all(.1));
 
 	kalmanFilter = KF;
-	
+
 }
 
 bool HumanBlob::operator==(const HumanBlob& human)
