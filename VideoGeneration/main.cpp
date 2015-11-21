@@ -1,10 +1,11 @@
-#include "generatevideo.h"
+#include "videogeneration.h"
 #include <QtWidgets/QApplication>
 
 int mainXD(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	GenerateVideo w;
+	VideoGeneration w;
 	w.show();
+	
 	return a.exec();
 }
