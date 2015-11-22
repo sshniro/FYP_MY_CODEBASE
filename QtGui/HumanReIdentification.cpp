@@ -233,8 +233,8 @@ int main()
 				drawContours(drawnOnOriginal, hulls, i, color, 1, 8, vector<Vec4i>(), 0, Point());
 
 				BlobId profiledBlob = profiledBlobs[i];
-				Point textOrg(profiledBlob.x, (img.rows + textSize.height) / 2);
-				putText(drawnOnOriginal, text, textOrg, FONT_HERSHEY_PLAIN, fontScale, Scalar::all(255), thickness, 8);
+				//Point textOrg(profiledBlob.x, (img.rows + textSize.height) / 2);
+				//putText(drawnOnOriginal, text, textOrg, FONT_HERSHEY_PLAIN, fontScale, Scalar::all(255), thickness, 8);
 			}
 
 			vector< vector< Point> >::iterator itc = filteredContours.begin(); 
