@@ -33,6 +33,9 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{23f7e137-5d88-49fe-87a6-a282835c21aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CalculateMoments.cpp">
@@ -53,6 +56,24 @@
     <ClCompile Include="moments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Blob.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="HumanBlob.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="MissingHumanBlob.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackingObject.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoProcessing.cpp">
+      <Filter>Source Files</Filter>
+	</ClCompile>
     <ClCompile Include="videopanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,6 +95,12 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_videopanel.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoProcessing.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

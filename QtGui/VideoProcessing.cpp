@@ -2,23 +2,19 @@
 
 VideoProcessing::VideoProcessing(){}
 
-int VideoProcessing::BlobDetection(Mat *frame, vector<models::Blob> *outBlobs){
-	blur(*frame, thresh_frame, Size(4, 4));   // blur ---
-	backSubPtr->operator()(thresh_frame, thresh_frame, -1);  // background substraction
-	morphologyEx(thresh_frame, thresh_frame, CV_MOP_CLOSE, morpho_ele);  // morphology pre processing
-	threshold(thresh_frame, thresh_frame, 128, 255, CV_THRESH_BINARY);  // shadow removing, binary
+int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, Mat mask, vector<models::Blob> *outBlobs){
 	vector<vector<Point>> contours;
-	findContours(thresh_frame, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);  // inputFrame, output vector of blobs, retrieve external blobs, all px of each contour
-
+	contours = blbDetect.detectContours(frame, pMOG2, mask);
 	for each (vector<Point> con in contours)
 	{
-		(*outBlobs).push_back(models::Blob(con));
+		if (blbDetect.isQualifyingContour(con))
+			(*outBlobs).push_back(models::Blob(con));
 	}
 
 	return (*outBlobs).size();
 }
 
-int VideoProcessing::HumanDetection(vector<models::Blob> *blobs, Mat *frame, vector<models::HumanBlob> *outHumanBlobs){
+int VideoProcessing::humanDetection(vector<models::Blob> *blobs, Mat *frame, vector<models::HumanBlob> *outHumanBlobs){
 	//update human blob set with the newly identified humans in the frame
 	for (size_t i = 0; i < (*blobs).size(); i++)
 	{
@@ -32,7 +28,7 @@ int VideoProcessing::HumanDetection(vector<models::Blob> *blobs, Mat *frame, vec
 }
 
 
-void VideoProcessing::DataAssociation(
+void VideoProcessing::dataAssociation(
 	vector<models::Blob> *blobs,
 	vector<models::HumanBlob> *trackingHumanBlobs,
 	vector<models::Blob> *outUnidentifiedBlobs,
@@ -46,7 +42,7 @@ void VideoProcessing::DataAssociation(
 
 }
 
-void VideoProcessing::CheckInProfiles(
+void VideoProcessing::checkInProfiles(
 	vector<models::HumanBlob> *humanList,
 	vector<models::HumanBlob> *possibleList,
 	vector<models::MissingHumanBlob> *missingList,
@@ -62,7 +58,7 @@ void VideoProcessing::CheckInProfiles(
 	}
 }
 
-void VideoProcessing::InitTrackingObject(vector<models::HumanBlob> *humanList, vector<models::HumanBlob> *trackingList)
+void VideoProcessing::initTrackingObject(vector<models::HumanBlob> *humanList, vector<models::HumanBlob> *trackingList)
 {
 	bool temp = false;
 	for (size_t i = 0; i < humanList->size(); i++)
@@ -83,7 +79,7 @@ void VideoProcessing::InitTrackingObject(vector<models::HumanBlob> *humanList, v
 	}
 }
 
-void VideoProcessing::KalmanCorrectAndPredict(vector<models::HumanBlob> *trackingList)
+void VideoProcessing::kalmanCorrectAndPredict(vector<models::HumanBlob> *trackingList)
 {
 	Mat_<float> mesurement(2, 1);
 	mesurement.setTo(Scalar(0));
@@ -102,7 +98,7 @@ void VideoProcessing::KalmanCorrectAndPredict(vector<models::HumanBlob> *trackin
 	}
 }
 
-void VideoProcessing::InformAdjecentNodes(vector<graph::ExitPoint> *exitsList, vector<models::HumanBlob> *trackingList)
+void VideoProcessing::informAdjecentNodes(vector<graph::ExitPoint> *exitsList, vector<models::HumanBlob> *trackingList)
 {
 
 }

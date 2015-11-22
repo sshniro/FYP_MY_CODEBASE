@@ -43,6 +43,113 @@ void getDiffInVideo(){
 	//morphology element
 	Mat element = getStructuringElement(MORPH_RECT, Size(7, 7), Point(3, 3));
 
+<<<<<<< HEAD
+
+
+
+
+#define drawCross( img, center, color, d )\
+line(img, Point(center.x - d, center.y - d), Point(center.x + d, center.y + d), color, 2, CV_AA, 0);\
+line(img, Point(center.x + d, center.y - d), Point(center.x - d, center.y + d), color, 2, CV_AA, 0 );
+
+
+//struct PossibleProfilesMatchBundle
+//{
+//	vector<models::HumanBlob> *humanB;
+//	vector<models::HumanBlob> *possibleP;
+//};
+
+
+
+unsigned int __stdcall threadForNode(void* data)
+{
+	char *nodeIdptr = static_cast<char*>(data);
+	printf("THREAD [%d]:[%s]:: started.\n", GetCurrentThreadId(), &(*nodeIdptr));
+
+	graph::Node *currentNodePtr = _graph.getNode(&(*nodeIdptr));
+
+	currentNodePtr->ThreadId = GetCurrentThreadId();
+	string videoLink = currentNodePtr->IP;
+	vector<graph::ExitPoint> exitPoints = currentNodePtr->exitPoints;
+
+	printf("%s :: %d :: %s \n", currentNodePtr->Id.c_str(), currentNodePtr->ThreadId, videoLink.c_str());
+
+	// ###################################################
+	//				opencv video tracking
+
+	Mat frame;
+	VideoCapture videoCapture(videoLink);
+	vector<models::Blob> blobs, unidentifiedBlobs;
+	vector<models::HumanBlob> humanBlobs, trackingHumanBlobs, possibleProfileList;
+	vector<models::MissingHumanBlob> missingHumanBlobs;
+
+	Mat drawing = Mat::zeros(frame.size(), CV_8UC1);
+
+	VideoProcessing _vProcessing = VideoProcessing();
+	Mat fgMaskMOG2;
+	Ptr<BackgroundSubtractor> pMOG2 = new BackgroundSubtractorMOG2(300, 32, true);
+
+	if (!(videoCapture.read(frame)))
+	{
+		cerr << "Problem opening video source" << endl;
+		return -1;
+	}
+
+	while (waitKey(10) != 27 && videoCapture.grab()) // terminate when ESC pressed
+	{
+		videoCapture.read(frame);
+		/*if (frame.size().width > 1360 || frame.size().height > 760)
+		{
+			resize(frame, frame, Size(frame.size().width / 2, frame.size().height / 2));
+		}*/
+
+		// clear local vectors
+		blobs.clear();
+		unidentifiedBlobs.clear();
+		humanBlobs.clear();
+
+
+		// ***** should have update after map predicted and detected
+		/////////
+
+		// blob detection
+		if (_vProcessing.blobDetection(frame, pMOG2, fgMaskMOG2, &blobs) == 0)
+		{
+			string x = currentNodePtr->Id.c_str();
+			imshow(x, frame);
+			continue;	// If no blobs detected continue while
+		}
+
+		if (trackingHumanBlobs.empty())	// if no human blobs tracked yet
+		{
+			unidentifiedBlobs = blobs;	// all blobs are unindentified
+		}
+		else	// if there are human blobs tracked in previous frames
+		{
+			_vProcessing.dataAssociation(&blobs, &trackingHumanBlobs, &unidentifiedBlobs, &missingHumanBlobs);
+		}
+
+		if (!(unidentifiedBlobs.empty()))
+		{
+			_vProcessing.humanDetection(&unidentifiedBlobs, &frame, &humanBlobs);
+		}
+
+		if (!(humanBlobs.empty()))
+		{
+			_vProcessing.checkInProfiles(&humanBlobs, &possibleProfileList, &missingHumanBlobs, &trackingHumanBlobs);
+		}
+
+		if (!(humanBlobs.empty()))
+		{
+			_vProcessing.initTrackingObject(&humanBlobs, &trackingHumanBlobs);
+		}
+
+		if (!(trackingHumanBlobs.empty()))
+		{
+			_vProcessing.kalmanCorrectAndPredict(&trackingHumanBlobs);
+			_vProcessing.informAdjecentNodes(&exitPoints, &trackingHumanBlobs);
+			//_vProcessing.UpdateCentralProfiles(&trackingHumanBlobs);
+=======
 	//unconditional loop
 	int skippedFrames = 2500;
 	for (int i = 0; i < skippedFrames; i++)
@@ -95,6 +202,7 @@ void getDiffInVideo(){
 			Rect mr = boundingRect(Mat(*itc));
 			rectangle(resize_blur_Img, mr, CV_RGB(255, 0, 0),2);
 			++itc;
+>>>>>>> 564499cb87c97adac23c83808ba014b00ad12cb0
 		}
 
 		///////////////////////////////////////////////////////////////////
