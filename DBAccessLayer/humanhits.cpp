@@ -128,14 +128,33 @@ vector<Profile> HumanHits::getAllProfilesInSecond(string absoluteTime, string ca
 
 	stmt = con->createStatement();
 	stmt->execute("USE camera");
-	string query = "select profile_id, timestamp  from " + cameraNode +" where TimeStamp = "+ absoluteTime;
+	if (cameraNode == "PRG1.avi")
+		cameraNode = "camera_node_1";
+	else if (cameraNode == "PRG6.avi")
+		cameraNode = "camera_node_6";
+	else if (cameraNode == "PRG7.avi")
+		cameraNode = "camera_node_7";
+	else if (cameraNode == "PRG14.avi")
+		cameraNode = "camera_node_14";
+	else if (cameraNode == "PRG22.avi")
+		cameraNode = "camera_node_22";
+	else if (cameraNode == "PRG23.avi")
+		cameraNode = "camera_node_23";
+	else if (cameraNode == "PRG28.avi")
+		cameraNode = "camera_node_28";
+	else if (cameraNode == "PRG29.avi")
+		cameraNode = "camera_node_29";
+
+
+	string query = "select profile_id, Blob_Center_Point  from " + cameraNode +" where TimeStamp = "+ absoluteTime;
 	// select profile_id, timestamp from camera_node_22 where TimeStamp = 1.54;
 	ResultSet *profileResult = stmt->executeQuery(query);
 	while (profileResult->next())
 	{
 		Profile prf;
 		prf.profileId = profileResult->getString("profile_id");
-		vector<string> coord = stringSplit(profileResult->getString("timestamp"),",");
+		string centrePoint = profileResult->getString("Blob_Center_Point");
+		vector<string> coord = stringSplit(centrePoint, ",");
 		prf.centreX = stoi(coord[0]);
 		prf.centreY = stoi(coord[1]);
 		profiles.push_back(prf);

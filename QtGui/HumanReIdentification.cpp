@@ -54,8 +54,10 @@ Mat savedHist;
 RNG rng(12345);
 
 struct BlobId{
-	Mat blob;
+	vector< Point> surroundingContours;
 	string Id;
+	int centreX;
+
 };
 ///Removes any dir if exists
 void make_directory(QString path);
@@ -85,20 +87,53 @@ Mat frame; //current frame
 
 int frameCounter = 0;
 
-vector<BlobId> matchProfilesWithBlobs(vector<Point> contour, string absoluteTime, string cameraNode){
+vector<BlobId> matchProfilesWithBlobs(vector< vector< Point> > contours, string absoluteTime, string cameraNode){
 	HumanHits hh;
-	vector<Profile> profiles = hh.getAllProfilesInSecond(absoluteTime, cameraNode);
-	for (Point blob : contour)
-	{
+	vector<BlobId> profiledBlobs;
+	vector<Profile> profilesExisting = hh.getAllProfilesInSecond(absoluteTime, cameraNode);
 
+	//Start comparing blob with existing profile
+	int counter =0;
+	for (vector< Point> contour : contours)
+	{
+		//Find centre of blob
+		Moments mom = moments(contour, false);
+		Point2f currentCentrePoint = Point2f(mom.m10 / mom.m00, mom.m01 / mom.m00);
+
+		//Map blob to profile, if not found set to UNKNOWN
+		double minDistance  = -1;
+		string minProfile = "UNKNOWN";
+		for (int profileCount = 0; profileCount < profilesExisting.size(); profileCount++)
+		{
+			Profile savedProfile = profilesExisting[profileCount];
+			double distance = sqrt(
+									(currentCentrePoint.x - savedProfile.centreX)*(currentCentrePoint.x - savedProfile.centreX)
+																				 +	
+									(currentCentrePoint.y - savedProfile.centreY)*(currentCentrePoint.y - savedProfile.centreY)
+								);
+			if (minDistance == -1 || minDistance < distance)
+			{
+				minDistance = distance;
+				minProfile = savedProfile.profileId;
+				profilesExisting.erase(profilesExisting.begin() + profileCount);
+			}
+
+		}
+		BlobId blobId;
+		blobId.Id = minProfile;
+		blobId.surroundingContours = contour;
+		profiledBlobs.push_back(blobId);
+		counter++;
 	}
+
+
+
+	return profiledBlobs;
 }
 int main()
 {
 	BlobDetection blb;
-	
-	//blb.
-	/* The behavior of mkdir is undefined for anything other than the "permission" bits */
+
 	QString path = "C:\\Projects\\Output";
 	QString path_correct = "C:\\Projects\\Output\\file1\\correct";
 	QString path_non = "C:\\Projects\\Output\\file1\\non";
@@ -115,18 +150,18 @@ int main()
 	
 	Ptr< BackgroundSubtractor> pMOG2Pointer; //MOG2 Background subtractor
 	pMOG2Pointer = new BackgroundSubtractorMOG2(300, 32, true);//300,0.0);
+	string prefix = "C:\\Users\\dehandecroos\\Desktop\\Videos\\";
+	string files[] = {	"PRG6.avi",
+						"PRG22.avi", 
+						"PRG28.avi",
+						"PRG1.avi",
+						"PRG7.avi",
+						"PRG14.avi" ,
+						"PRG23.avi" ,
+						"PRG29.avi" };
+	for (string file : files){
 
-	string paths[] = { "C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG1.avi", 
-						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG6.avi",
-						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG7.avi",
-						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG14.avi" ,
-						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG22.avi" ,
-						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG23.avi" ,
-						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG28.avi",
-						"C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG29.avi" };
-	for (string path : paths){
-
-		string fileName = path;
+		string fileName = prefix + file;
 
 		VideoCapture stream1(fileName);
 
@@ -177,6 +212,16 @@ int main()
 				contours.pop_back();
 			}
 
+			int time = static_cast<int>(stream1.get(CV_CAP_PROP_FRAME_COUNT));
+			int mins = static_cast<int>(time / (1000 * 60));
+			int seconds = static_cast<int>((time - (mins * 60 * 1000)) / 1000);
+			string timeStr = to_string(mins) + "." + to_string(seconds);
+			vector<BlobId> profiledBlobs;
+			if (filteredContours.size() != 0){
+				vector<BlobId> profiledBlobs =  matchProfilesWithBlobs(filteredContours, timeStr, file);
+			}
+
+
 			//Draw the hull borders and fill in white to create the "hullDrawing" mask 
 			Mat drawnOnOriginal = frame.clone();
 			Mat hullDrawing(frame.size(), CV_8UC3);
@@ -186,22 +231,24 @@ int main()
 				Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
 				drawContours(hullDrawing, hulls, i, color, 1, 8, vector<Vec4i>(), 0, Point());
 				drawContours(drawnOnOriginal, hulls, i, color, 1, 8, vector<Vec4i>(), 0, Point());
+
+				BlobId profiledBlob = profiledBlobs[i];
+				Point textOrg(profiledBlob.x, (img.rows + textSize.height) / 2);
+				putText(drawnOnOriginal, text, textOrg, FONT_HERSHEY_PLAIN, fontScale, Scalar::all(255), thickness, 8);
 			}
 
 			vector< vector< Point> >::iterator itc = filteredContours.begin(); 
-			vector<Rect> currentlyDetectedblobs;
+			//vector<Rect> currentlyDetectedblobs;
 			while (itc != filteredContours.end()) {
 
 				//Create bounding rect of object
 				//rect draw on origin image
 				Rect mr = boundingRect(Mat(*itc));
-				currentlyDetectedblobs.push_back(mr);
+				//currentlyDetectedblobs.push_back(mr);
 				//Mat window(mr.height,originalImage.width,CV_8UC3,Scalar(255));
 				rectangle(drawnOnOriginal, mr, CV_RGB(255, 0, 0), 3);
 				++itc;
 			}
-
-			Mat matchProfilesWithBlobs();
 
 			floodFill(hullDrawing, Point(), Scalar(0, 0, 0));
 			imshow("DrawnOnOri", drawnOnOriginal);
@@ -233,11 +280,8 @@ int main()
 				//imshow("convexBlMask", convexBlobMask);
 				//imshow("rectBlob", rectBlob);
 				cvWaitKey(1);
-				time_t seconds;
-				time(&seconds);
-				stringstream ss;
-				ss << seconds;
-				string ts = ss.str();
+
+
 				double heightToWidthRatio = static_cast<double>(roi.height) / static_cast<double>(roi.width);
 				if (roi.width > 30 && roi.width < 100 && roi.height>30)
 				{
@@ -271,7 +315,7 @@ int main()
 
 					}
 					else{
-						imwrite("C:\\Projects\\Output\\file1\\non\\" + ts + to_string(i) + ".jpg", convexBlob);
+						imwrite("C:\\Projects\\Output\\file1\\non\\" + to_string(i) + ".jpg", convexBlob);
 
 
 					}
