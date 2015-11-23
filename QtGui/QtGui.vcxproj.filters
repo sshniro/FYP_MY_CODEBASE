@@ -36,6 +36,12 @@
     <Filter Include="Source Files\Models">
       <UniqueIdentifier>{23f7e137-5d88-49fe-87a6-a282835c21aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Threads">
+      <UniqueIdentifier>{786ddbb4-2d7d-4929-9b3c-6e8c1b4ba425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threads">
+      <UniqueIdentifier>{f7d1d35e-e7d1-4138-85c8-b2a621692b40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CalculateMoments.cpp">
@@ -73,7 +79,7 @@
     </ClCompile>
     <ClCompile Include="VideoProcessing.cpp">
       <Filter>Source Files</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="videopanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -83,6 +89,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_videopanel.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Thread_CameraNode.cpp">
+      <Filter>Source Files\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadTesting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="videopanel.h">
@@ -90,6 +102,9 @@
     </CustomBuild>
     <CustomBuild Include="videopanel.ui">
       <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="qtgui.qrc">
+      <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +116,12 @@
     </ClInclude>
     <ClInclude Include="VideoProcessing.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_qtgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread_CameraNode.h">
+      <Filter>Header Files\Threads</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
