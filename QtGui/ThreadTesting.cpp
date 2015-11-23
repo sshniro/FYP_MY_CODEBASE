@@ -1,7 +1,7 @@
 #include "Thread_CameraNode.h"
 #include <iostream>
 
-int main(int argc, char *argv[])
+int mainTT(int argc, char *argv[])
 {
 	Mat v1(100,100,CV_8UC3);
 	Mat v2(100, 100, CV_8UC3);
@@ -44,6 +44,9 @@ int main(int argc, char *argv[])
 			nThread3->isShown = true;
 		}
 		cvWaitKey(1);
+
+		if (!(nThread1->isNotEnd) && !(nThread2->isNotEnd) && !(nThread3->isNotEnd))
+			break;
 	}
 
 	system("pause");

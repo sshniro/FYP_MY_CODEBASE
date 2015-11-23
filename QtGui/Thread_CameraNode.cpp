@@ -14,7 +14,7 @@ NodeThread::NodeThread(QMutex* m, Mat* outFrame)
 	mutex = m;
 	frame = outFrame;
 	isShown = true;
-	isNotEnd = false;
+	isNotEnd = true;
 }
 
 NodeThread::~NodeThread()
