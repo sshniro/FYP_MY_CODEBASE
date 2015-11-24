@@ -6,6 +6,8 @@
 #include <QtCore\QStringList>
 #include <QApplication>
 #include <QLabel>
+#include <windows.h>
+#include <cstdio>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -47,11 +49,12 @@ struct HumanProportions{
 };
 
 
-void mainXQWE(int argc, char *argv[])
+void mainCav(int argc, char *argv[])
 {
 	//QCoreApplication app(argc, argv);
 	QApplication app(argc, argv);
 	caviar_hits cc;
+	
 	cc.compareAllHits();
 
 	

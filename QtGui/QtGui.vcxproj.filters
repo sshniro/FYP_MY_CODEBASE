@@ -73,7 +73,7 @@
     </ClCompile>
     <ClCompile Include="VideoProcessing.cpp">
       <Filter>Source Files</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="videopanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,6 +91,9 @@
     <CustomBuild Include="videopanel.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="qtgui.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_videopanel.h">
@@ -100,6 +103,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VideoProcessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_qtgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

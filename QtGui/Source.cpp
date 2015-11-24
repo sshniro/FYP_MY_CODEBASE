@@ -31,26 +31,31 @@ graph::Graph _graph;
 
 int mainS(int argc, char* argv[])
 {
-	cout << "Advanced Surveillance Camera Network (ASCN)\nInitialting ...\n";
+	//cout << "Advanced Surveillance Camera Network (ASCN)\nInitialting ...\n";
 
-	cout << "Network Graph checking ...\n";
+	//cout << "Network Graph checking ...\n";
 
 	_graph = graph::Graph();
 
 
-	_graph.initGraph();
+	//_graph.initGraph();
 
-	if (!(_graph.isConfigured()))
+	if ((_graph.isConfigured()))
 	{
 		// cofigure graph.
 		vector<graph::ExitPoint> exitPointsList{ { 8, make_pair(20, 20), make_pair(50, 100) } };
-		_graph.addNode(graph::Node("C001", "1.1.1.1", "GR1", exitPointsList));
-		_graph.addNode(graph::Node("C002", "1.1.1.2", "GR2", exitPointsList));
-		_graph.addNode(graph::Node("C003", "1.1.1.3", "GR3", exitPointsList));
-		_graph.addNeighbour("C001", "C002", 8, 10);
-		_graph.addNeighbour("C002", "C001", 2, 10);
+
+		_graph.addNode(graph::Node("C001", "C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG6.avi", "GR1", exitPointsList));
+		_graph.addNode(graph::Node("C002", "C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG9.avi", "GR2", exitPointsList));
+		_graph.addNode(graph::Node("C003", "C:\\Users\\dehandecroos\\Desktop\\Videos\\PRG23.avi", "GR3", exitPointsList));
+
+		_graph.addNeighbour("C001", "C002", 8, 1);
+		_graph.addNeighbour("C002", "C001", 2, 1);
+
 		_graph.addNeighbour("C001", "C003", 6, 1);
 		_graph.addNeighbour("C003", "C001", 4, 1);
+
+		qDebug() << "Graph initiated. \n";
 	}
 
 
@@ -92,7 +97,7 @@ line(img, Point(center.x + d, center.y - d), Point(center.x - d, center.y + d), 
 unsigned int __stdcall threadForNode(void* data)
 {
 	char *nodeIdptr = static_cast<char*>(data);
-	printf("THREAD [%d]:[%s]:: started.\n", GetCurrentThreadId(), &(*nodeIdptr));
+	//printf("THREAD [%d]:[%s]:: started.\n", GetCurrentThreadId(), &(*nodeIdptr));
 
 	graph::Node *currentNodePtr = _graph.getNode(&(*nodeIdptr));
 
@@ -100,7 +105,8 @@ unsigned int __stdcall threadForNode(void* data)
 	string videoLink = currentNodePtr->IP;
 	vector<graph::ExitPoint> exitPoints = currentNodePtr->exitPoints;
 
-	printf("%s :: %d :: %s \n", currentNodePtr->Id.c_str(), currentNodePtr->ThreadId, videoLink.c_str());
+	//printf("%s :: %d :: %s \n", currentNodePtr->Id.c_str(), currentNodePtr->ThreadId, videoLink.c_str());
+	qDebug() << currentNodePtr->Id.c_str() << " :: " << currentNodePtr->ThreadId << " :: " << videoLink.c_str() << "\n";
 
 	// ###################################################
 	//				opencv video tracking
@@ -122,7 +128,7 @@ unsigned int __stdcall threadForNode(void* data)
 		cerr << "Problem opening video source" << endl;
 		return -1;
 	}
-
+	 
 	while (waitKey(10) != 27 && videoCapture.grab()) // terminate when ESC pressed
 	{
 		videoCapture.read(frame);
