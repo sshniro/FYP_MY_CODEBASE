@@ -57,9 +57,9 @@ vector< vector< Point> > BlobDetection::detectContours(Mat frame, Ptr< Backgroun
 bool BlobDetection::isQualifyingContour(vector<Point> contour)
 { 
 	bool result = false;
-	int minimum_width = 20;//30;
-	int maximum_width = 200;//100;
-	int minimum_height = 20;// 30;
+	int minimum_width = 30;//30;
+	int maximum_width = 180;//100;
+	int minimum_height = 30;// 30;
 	double minimum_htow_ratio = 1.3;
 	Rect roi = boundingRect(contour);
 	double heightToWidthRatio = static_cast<double>(roi.height) / static_cast<double>(roi.width);
@@ -71,7 +71,7 @@ bool BlobDetection::isQualifyingContour(vector<Point> contour)
 	{
 		result = true;
 	}
-	//result = true;
+
 	return result;
 	
 

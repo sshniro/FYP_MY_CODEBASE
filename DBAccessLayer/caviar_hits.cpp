@@ -135,6 +135,7 @@ std::auto_ptr< sql::ResultSet > caviar_hits::getAllProfilesData()
 
 	return res;
 }
+
 void getRegionFromResult( sql::ResultSet *res, Region *region)
 {
 
@@ -166,29 +167,41 @@ void caviar_hits::compareAllHits()
 	Blob blob1;
 	Blob blob2;
 	string profileIdRegex;
+	driver = sql::mysql::get_mysql_driver_instance();
+	con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
+	stmt = con->createStatement();
+	stmt->execute("USE camera");
 	for (int profileId = 1; profileId < 73; profileId++)
 	{
-		driver = sql::mysql::get_mysql_driver_instance();
-		con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
+		string currentProfileQuery1 = "SELECT img_id FROM caviar_hits";
+		ResultSet *imgSpecificResult1 = stmt->executeQuery(currentProfileQuery1);
 
-		stmt = con->createStatement();
-		stmt->execute("USE camera");
 
-		if (profileId > 9)
+		string currentProfileQuery2 = "SELECT * FROM caviar_hits";
+		ResultSet *imgSpecificResult2 = stmt->executeQuery(currentProfileQuery2);
+
+		vector<string> imgIds;
+		while (imgSpecificResult1->next())
 		{
-			tryGetCurrentImageQuery += "'00" + to_string(profileId) + "%'";
-			profileIdRegex = "'00" + to_string(profileId) + "%'";//
+			imgIds.push_back(imgSpecificResult1->getString(1));
 		}
-		else
+		vector<string> imgIds2(imgIds);
+
+		PreparedStatement* pstmt = con->prepareStatement("INSERT INTO test(id) VALUES (?)");
+		for (int i = 0; i < imgIds.size(); i++)
 		{
-			tryGetCurrentImageQuery += "'000" + to_string(profileId) + "%'";
-			profileIdRegex = "'000" + to_string(profileId) + "%'";//
+			for (int j = i; j < imgIds.size(); j++)
+			{
+				
+				for (int i = 1; i <= 10; i++) {
+					//pstmt->setInt(1, i);
+					//pstmt->executeUpdate();
+				}
+				delete pstmt;
+			}
 		}
-			//string tryGetCurrentImageQueryX = "UPDATE moments SET profileId=" + to_string(profileId) + " WHERE img_id LIKE" + profileIdRegex;//
-			//stmt->executeQuery(tryGetCurrentImageQueryX);
 
-
-
+		string c = "x";
 		/*
 		for (int hitId = 1;; hitId++)
 		{
