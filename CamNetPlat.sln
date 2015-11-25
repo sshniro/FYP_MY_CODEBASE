@@ -11,8 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DBAccessLayer", "DBAccessLa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HumanReIdent", "HumanReIdent\HumanReIdent.vcxproj", "{4F208E75-74FB-4FD8-A1DB-608347BE0F04}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graph", "Graph\Graph.vcxproj", "{02FC0292-43D7-425B-BFF4-C74540C7FD7D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -81,20 +79,6 @@ Global
 		{4F208E75-74FB-4FD8-A1DB-608347BE0F04}.Release|Win32.Build.0 = Release|Win32
 		{4F208E75-74FB-4FD8-A1DB-608347BE0F04}.Release|x64.ActiveCfg = Release|x64
 		{4F208E75-74FB-4FD8-A1DB-608347BE0F04}.Release|x64.Build.0 = Release|x64
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Debug|ARM.ActiveCfg = Debug|Win32
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Debug|Mixed Platforms.Build.0 = Debug|x64
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Debug|Win32.Build.0 = Debug|Win32
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Debug|x64.ActiveCfg = Debug|x64
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Debug|x64.Build.0 = Debug|x64
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Release|ARM.ActiveCfg = Release|Win32
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Release|Win32.ActiveCfg = Release|Win32
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Release|Win32.Build.0 = Release|Win32
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Release|x64.ActiveCfg = Release|x64
-		{02FC0292-43D7-425B-BFF4-C74540C7FD7D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,7 @@
 #include <opencv2\video\tracking.hpp>
 #include <opencv2\video\background_segm.hpp>
 #include "Models.h"
-#include <Graph.h>
+#include <graph.h>
 #include "BlobDetection.h"
 
 // blob detection
