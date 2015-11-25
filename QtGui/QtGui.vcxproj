@@ -99,7 +99,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>C:\AdaptiveCameraNetworkPack\opencv\build\x64\vc12\lib;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn\Dynamic_Build\driver\Debug;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release;$(QTDIR)\lib;C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\AdaptiveCameraNetworkPack\opencv\build\x64\vc12\dlib;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn\Dynamic_Build\driver\Debug;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release;C:\Qt\Qt5.5.0\5.5\msvc2013_64\lib;C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;DBAccessLayer.lib;CamFileHandle.lib;mysqlcppconn.lib;libmysql.lib;opencv_calib3d249d.lib;opencv_core249d.lib;opencv_features2d249d.lib;opencv_flann249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;opencv_ml249d.lib;opencv_objdetect249d.lib;opencv_photo249d.lib;opencv_stitching249d.lib;opencv_ts249d.lib;opencv_video249d.lib;opencv_videostab249d.lib;HumanReIdent.lib;Graph.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

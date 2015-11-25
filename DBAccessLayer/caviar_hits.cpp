@@ -145,13 +145,15 @@ void getRegionFromResult( sql::ResultSet *res, Region *region)
 	region->setMoments(momentAvg, momentStdDev, momentSkew);
 }
 
-double getDistanceBetweenBlobs(Blob *blob1, Blob *blob2)
+double getDistanceBetweenBlobs(Blob *controlBlob, Blob *testingBlob)
 {
 	double total = 0;
-	vector<Region>::iterator it = blob1->getAllRegions().begin();
-	for (; it != blob1->getAllRegions().end(); ++it)
+	vector<Region> controlRegions = controlBlob->getAllRegions();
+	vector<Region> testingRegions = controlBlob->getAllRegions();
+	for (int rId = 1; rId <= 3; rId++)
 	{
-		Region x = *it;
+		Region controlRegion = controlRegions[rId]; 
+		Region testingRegion = testingRegions[rId];
 	}
 	return 0;
 }
@@ -164,8 +166,7 @@ void caviar_hits::compareAllHits()
 	//auto_ptr< sql::ResultSet > res(stmt->executeQuery(tryGetCurrentImageQuery));
 	//auto_ptr< sql::ResultSet > resCompared(stmt->executeQuery(tryGetCurrentImageQuery));
 	string cached_img_id = "";
-	Blob blob1;
-	Blob blob2;
+
 	string profileIdRegex;
 	driver = sql::mysql::get_mysql_driver_instance();
 	con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
@@ -197,18 +198,66 @@ void caviar_hits::compareAllHits()
 	}
 	}*/
 
-	/*Insert all combinations of caviar images
-	string insertQuery = "INSERT INTO caviar_hits_comparison(testing_image, control_image) VALUES('";
-	for (int i = 0; i < imgIds.size(); i++)
+	/*
+	for (int hitId = 1;; hitId++)
 	{
-	for (int j = i; j < imgIds.size(); j++)
+	string tryGetCurrentImageQuery = "SELECT * FROM moments WHERE img_id LIKE";
+	if (profileId > 9)
 	{
-	string finalInsertQuery = insertQuery +  imgIds[i] + "','"+ imgIds2[j]+"')";
-	qDebug() << QString::fromStdString(finalInsertQuery);
-	stmt->executeUpdate(finalInsertQuery);
+	tryGetCurrentImageQuery += "'00" + to_string(profileId) + "%'";
+	}
+	else
+	{
+	tryGetCurrentImageQuery += "'000" + to_string(profileId) + "%'";
+	}
+
+	ResultSet *imgSpecificResult = stmt->executeQuery(tryGetCurrentImageQuery);
+	int regionCounter = 0;
+	Region *region = new Region();
+
+	if (imgSpecificResult->rowsCount != 0)
+	{
+	while (imgSpecificResult->next())
+	{
+	getRegionFromResult(imgSpecificResult, region);
+	//region.regionId = to_string(regionCounter);
+	region->setRegionId(to_string(regionCounter));
+	regionCounter++;
+	blob1.addRegion(region);
+
 
 	}
+	for (int j = profileId; j < 73; j++)
+	{
+	string tryGetCurrentImageQuery = "SELECT * FROM moments WHERE img_id LIKE";
+	if (j > 9)
+	{
+	tryGetCurrentImageQuery += "'00" + to_string(profileId) + "%'";
+	}
+	else
+	{
+	tryGetCurrentImageQuery += "'000" + to_string(profileId) + "%'";
+	}
+
+	ResultSet *imgSpecificResult(stmt->executeQuery(tryGetCurrentImageQuery));
+	int regionCounter = 0;
+	Region region;
+	while (imgSpecificResult->next()) {
+	getRegionFromResult(imgSpecificResult, &region);
+	region.regionId = to_string(regionCounter);
+	regionCounter++;
+	blob2.addRegion(&region);
+	}
+	getDistanceBetweenBlobs(&blob1, &blob2);
+	}
+	}
+	else
+	{
+	break;
+	}
 	}*/
+
+
 
 	string currentProfileQuery1 = "SELECT control_image,testing_image FROM caviar_hits_comparison";
 	ResultSet *imgSpecificResult1 = stmt->executeQuery(currentProfileQuery1);
@@ -219,7 +268,41 @@ void caviar_hits::compareAllHits()
 		string mom_q = "SELECT * FROM moments where ";
 		ResultSet *control_img_moments = stmt->executeQuery(mom_q + "control_image= " + control_img_id);
 		ResultSet *testing_img_moments = stmt->executeQuery(mom_q + "testing_image= " + testing_img_id);
+	
+		int regionCounter = 0;
+		Blob *blobControl = new Blob();
+		Blob *blobTesting = new Blob();
+		Region *region = new Region();
+		while (control_img_moments->next() && testing_img_moments->next()) {
+			Region *regionControl = new Region();
+			Region *regionTesting = new Region();
+
+			getRegionFromResult(control_img_moments, regionControl);
+			getRegionFromResult(testing_img_moments, regionTesting);
+
+			regionControl->regionId = control_img_moments->getInt("region_id");
+			regionTesting->regionId = testing_img_moments->getInt("region_id");
+
+			blobControl->addRegion(regionControl);
+			blobTesting->addRegion(regionTesting);
+
+			
+
+
+		}
+
+
+		double distance = getDistanceBetweenBlobs(blobControl, blobTesting);
+		qDebug() << QString::fromStdString( "The Distance for " + control_img_id + " and " + testing_img_id + "is = " + to_string(distance));
+
+		delete blobControl;
+		delete blobTesting;
 	}
+	
+
+	
+
+	
 }
 
  
