@@ -171,97 +171,54 @@ void caviar_hits::compareAllHits()
 	con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
 	stmt = con->createStatement();
 	stmt->execute("USE camera");
-	for (int profileId = 1; profileId < 73; profileId++)
+
+	vector<string> imgIds;
+
+	/*
+	string currentProfileQuery1 = "SELECT img_id FROM caviar_hits";
+	ResultSet *imgSpecificResult1 = stmt->executeQuery(currentProfileQuery1);
+	while (imgSpecificResult1->next())
 	{
-		string currentProfileQuery1 = "SELECT img_id FROM caviar_hits";
-		ResultSet *imgSpecificResult1 = stmt->executeQuery(currentProfileQuery1);
+		imgIds.push_back(imgSpecificResult1->getString(1));
+	}
+	vector<string> imgIds2(imgIds);
+	*/
 
+	/*Insert all combinations of caviar images
+	string insertQuery = "INSERT INTO caviar_hits_comparison(testing_image, control_image) VALUES('";
+	for (int i = 0; i < imgIds.size(); i++)
+	{
+	for (int j = i; j < imgIds.size(); j++)
+	{
+	string finalInsertQuery = insertQuery +  imgIds[i] + "','"+ imgIds2[j]+"')";
+	qDebug() << QString::fromStdString(finalInsertQuery);
+	stmt->executeUpdate(finalInsertQuery);
 
-		string currentProfileQuery2 = "SELECT * FROM caviar_hits";
-		ResultSet *imgSpecificResult2 = stmt->executeQuery(currentProfileQuery2);
+	}
+	}*/
 
-		vector<string> imgIds;
-		while (imgSpecificResult1->next())
-		{
-			imgIds.push_back(imgSpecificResult1->getString(1));
-		}
-		vector<string> imgIds2(imgIds);
+	/*Insert all combinations of caviar images
+	string insertQuery = "INSERT INTO caviar_hits_comparison(testing_image, control_image) VALUES('";
+	for (int i = 0; i < imgIds.size(); i++)
+	{
+	for (int j = i; j < imgIds.size(); j++)
+	{
+	string finalInsertQuery = insertQuery +  imgIds[i] + "','"+ imgIds2[j]+"')";
+	qDebug() << QString::fromStdString(finalInsertQuery);
+	stmt->executeUpdate(finalInsertQuery);
 
-		PreparedStatement* pstmt = con->prepareStatement("INSERT INTO test(id) VALUES (?)");
-		for (int i = 0; i < imgIds.size(); i++)
-		{
-			for (int j = i; j < imgIds.size(); j++)
-			{
-				
-				for (int i = 1; i <= 10; i++) {
-					//pstmt->setInt(1, i);
-					//pstmt->executeUpdate();
-				}
-				delete pstmt;
-			}
-		}
+	}
+	}*/
 
-		string c = "x";
-		/*
-		for (int hitId = 1;; hitId++)
-		{
-			string tryGetCurrentImageQuery = "SELECT * FROM moments WHERE img_id LIKE";
-			if (profileId > 9)
-			{
-				tryGetCurrentImageQuery += "'00" + to_string(profileId) + "%'";
-			}
-			else
-			{
-				tryGetCurrentImageQuery += "'000" + to_string(profileId) + "%'";
-			}
-
-			ResultSet *imgSpecificResult = stmt->executeQuery(tryGetCurrentImageQuery);
-			int regionCounter = 0;
-			Region *region = new Region();
-
-			if (imgSpecificResult->rowsCount != 0)
-			{
-				while (imgSpecificResult->next())
-				{
-					getRegionFromResult(imgSpecificResult, region);
-					//region.regionId = to_string(regionCounter);
-					region->setRegionId(to_string(regionCounter));
-					regionCounter++;
-					blob1.addRegion(region);
-
-
-				}
-				for (int j = profileId; j < 73; j++)
-				{
-					string tryGetCurrentImageQuery = "SELECT * FROM moments WHERE img_id LIKE";
-					if (j > 9)
-					{
-						tryGetCurrentImageQuery += "'00" + to_string(profileId) + "%'";
-					}
-					else
-					{
-						tryGetCurrentImageQuery += "'000" + to_string(profileId) + "%'";
-					}
-
-					ResultSet *imgSpecificResult(stmt->executeQuery(tryGetCurrentImageQuery));
-					int regionCounter = 0;
-					Region region;
-					while (imgSpecificResult->next()) {
-						getRegionFromResult(imgSpecificResult, &region);
-						region.regionId = to_string(regionCounter);
-						regionCounter++;
-						blob2.addRegion(&region);
-					}
-					getDistanceBetweenBlobs(&blob1, &blob2);
-				}
-			}
-			else
-			{
-				break;
-			}
-		}*/
-
-
+	string currentProfileQuery1 = "SELECT control_image,testing_image FROM caviar_hits_comparison";
+	ResultSet *imgSpecificResult1 = stmt->executeQuery(currentProfileQuery1);
+	while (imgSpecificResult1->next())
+	{
+		string control_img_id = imgSpecificResult1->getString(1);
+		string testing_img_id = imgSpecificResult1->getString(2);
+		string mom_q = "SELECT * FROM moments where ";
+		ResultSet *control_img_moments = stmt->executeQuery(mom_q + "control_image= " + control_img_id);
+		ResultSet *testing_img_moments = stmt->executeQuery(mom_q + "testing_image= " + testing_img_id);
 	}
 }
 

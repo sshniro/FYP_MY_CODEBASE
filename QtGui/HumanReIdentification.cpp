@@ -243,7 +243,7 @@ vector<BlobId> matchProfilesWithBlobs(vector< vector< Point> > contours, string 
 	return profiledBlobs;
 }
 
-int main()
+int mainREI()
 {
 
 	BlobDetection blb;
