@@ -1,3 +1,7 @@
+#ifndef MODELS_HEADER
+#define MODELS_HEADER
+
+
 #include <iostream>
 #include <stdio.h>
 #include <opencv2/core/core.hpp>
@@ -82,4 +86,21 @@ namespace models
 		time_t missedTime;
 	};
 	//#endif
+
+	//#ifndef ProfileTransferObj_HEADER
+	//#define ProfileTransferObj_HEADER
+	class ProfileTransferObj
+	{
+	public:
+		ProfileTransferObj();
+		~ProfileTransferObj();
+
+	private:
+
+	};
+	//#endif
 }
+
+
+
+#endif
