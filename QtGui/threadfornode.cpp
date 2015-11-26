@@ -17,6 +17,19 @@ ThreadForNode::~ThreadForNode()
 
 void ThreadForNode::run()
 {
+	VideoCapture cap(videoLink);
+
+	while (cap.grab())
+	{
+		cap.read(frame);
+
+		imshow(nodeId, frame);
+
+		cvWaitKey(10);
+	}
+
+	qDebug() << "finished.";
+
 	//emit sendProfileToNode(ProfileTransferObj, ThreadForNode*);
 }
 

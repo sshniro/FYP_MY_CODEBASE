@@ -1,6 +1,6 @@
 #include "messagepasser.h"
 
-MessagePasser::MessagePasser(QObject *parent = 0)
+MessagePasser::MessagePasser(QObject *parent)
 	: QObject(parent)
 {
 
@@ -11,10 +11,7 @@ MessagePasser::~MessagePasser()
 
 }
 
-
-// slots
-
-void passMessage(ProfileTransferObj profile, ThreadForNode* nodeThread)
+void MessagePasser::passMessage(ProfileTransferObj profile, ThreadForNode* nodeThread)
 {
 	nodeThread->updateProfileList(profile);
 }

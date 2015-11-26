@@ -1,7 +1,8 @@
 #ifndef MESSAGEPASSER_H
 #define MESSAGEPASSER_H
 
-#include <QObject>
+//#include <QObject>
+#include "QtCore\qobject.h"
 #include "Models.h"
 #include "threadfornode.h"
 

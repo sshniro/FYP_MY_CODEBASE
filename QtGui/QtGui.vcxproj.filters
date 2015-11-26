@@ -104,17 +104,20 @@
     <ClCompile Include="messagepasser.cpp">
       <Filter>Source Files\Threads</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_messagepasser.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_messagepasser.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="graph.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="node.cpp">
       <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="mainGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_messagepasser.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_messagepasser.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
