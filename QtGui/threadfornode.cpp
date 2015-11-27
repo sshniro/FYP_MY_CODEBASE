@@ -4,6 +4,7 @@
 ThreadForNode::ThreadForNode()
 {
 	msgPasser = new MessagePasser();
+	acknowledged = true;
 	connect(
 		this, SIGNAL(sendProfileToNode(ProfileTransferObj, ThreadForNode*)), 
 		msgPasser, SLOT(passMessage(ProfileTransferObj, ThreadForNode*))
@@ -22,10 +23,17 @@ void ThreadForNode::run()
 	while (cap.grab())
 	{
 		cap.read(frame);
+		
+		// process here
 
-		imshow(nodeId, frame);
+		// end process here
 
-		cvWaitKey(10);
+		waitForAcknowledge();
+		QImage outImage((uchar*)frame.data, frame.cols, frame.rows, frame.step, QImage::Format_RGB888);
+		int x = outImage.byteCount();
+		emit sendFrameToMain(outImage, this);
+
+		this->acknowledged = false;
 	}
 
 	qDebug() << "finished.";
@@ -36,4 +44,10 @@ void ThreadForNode::run()
 void ThreadForNode::updateProfileList(ProfileTransferObj profile)
 {
 
+}
+
+
+void ThreadForNode::waitForAcknowledge()
+{
+	while (!acknowledged);
 }
