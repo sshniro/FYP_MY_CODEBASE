@@ -1,8 +1,10 @@
 #ifndef THREADFORNODE_H
 #define THREADFORNODE_H
 
-#include <QObject>
+//#include <QObject>
+#include "QtCore\qobject.h"
 #include "QtCore\qthread.h"
+#include "qimage.h"
 #include "qdebug.h"
 #include "Models.h"
 
@@ -26,11 +28,14 @@ public:
 	~ThreadForNode();
 	void run();
 	void updateProfileList(ProfileTransferObj profile);
+	void waitForAcknowledge();
 
 	string nodeId;
 	string videoLink; // temp
+	bool acknowledged;
 
 signals:
+	void sendFrameToMain(QImage outImage, ThreadForNode* thread);
 	void sendProfileToNode(ProfileTransferObj profile, ThreadForNode* nodeThread);
 
 private:
