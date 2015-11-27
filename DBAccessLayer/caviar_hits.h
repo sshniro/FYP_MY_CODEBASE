@@ -15,6 +15,7 @@
 #include <QtCore\qstring.h>
 #include <QtCore\qstring.h>
 #include <QtCore\qdebug.h>
+#include <QtCore\qmath.h>
 
 #include <stdio.h>
 

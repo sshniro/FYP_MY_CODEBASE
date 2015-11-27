@@ -78,7 +78,9 @@ Region::Region(){
 }
 
 Region::~Region(){
-
+	//delete this->momentAverage;
+	//delete this->momentSkewness;
+	//delete this->momentStandardDeviation;
 }
 
 void Region::setRegionId(std::string regionId){
@@ -157,6 +159,6 @@ MomentSkewness::~MomentSkewness(){
 }
 
 Blob::~Blob(){
-
+	this->regions.clear();
 }
 

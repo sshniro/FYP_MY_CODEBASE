@@ -2,7 +2,7 @@
 #include "threadfornode.h"
 
 
-int main(int argc, char* argv[])
+int mainDEHAN(int argc, char* argv[])
 {
 
 	ThreadForNode* thread1 = new ThreadForNode();
@@ -10,8 +10,8 @@ int main(int argc, char* argv[])
 
 	thread1->nodeId = "C001";
 	thread2->nodeId = "C002";
-	thread1->videoLink = "E:/Final Year/project/human tracking/coding/Videos/PRG6.avi";
-	thread2->videoLink = "E:/Final Year/project/human tracking/coding/Videos/PRG9.avi";
+	thread1->videoLink = "C:/Users/dehandecroos/Desktop/Videos/PRG6.avi";
+	thread2->videoLink = "C:/Users/dehandecroos/Desktop/Videos/PRG29.avi";
 
 	thread1->start();
 	thread2->start();

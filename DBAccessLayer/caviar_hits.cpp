@@ -1,4 +1,5 @@
 #include "caviar_hits.h"
+#include <windows.h> // for Sleep
 
 
 caviar_hits::caviar_hits()
@@ -149,13 +150,51 @@ double getDistanceBetweenBlobs(Blob *controlBlob, Blob *testingBlob)
 {
 	double total = 0;
 	vector<Region> controlRegions = controlBlob->getAllRegions();
-	vector<Region> testingRegions = controlBlob->getAllRegions();
-	for (int rId = 1; rId <= 3; rId++)
+	vector<Region> testingRegions = testingBlob->getAllRegions();
+	double cHueCoef = 0.7, cSatCoef = 0.2,cValCoef = 0.1;
+	double rHeadCoef = 0.1, rTorsCoef = 0.5, rLegCoef = 0.4;
+	map<int, double> regionMap;
+	regionMap[0] = rHeadCoef, regionMap[1] = rTorsCoef, regionMap[2] = rLegCoef;
+	double totalDistanceSquared = 0;
+
+
+
+	MomentAverage* cRAve; 
+	MomentAverage* tRAve;
+	MomentStandardDeviation* cRStdDev;
+	MomentStandardDeviation* tRStdDev;
+	MomentSkewness* cRSkew;
+	MomentSkewness* tRSkew;
+	for (int rId = 0; rId < 3; rId++)
 	{
-		Region controlRegion = controlRegions[rId]; 
-		Region testingRegion = testingRegions[rId];
+		cRAve = controlRegions[rId].getAverageMoment(); //c = control , R = Region
+		tRAve = testingRegions[rId].getAverageMoment(); //t = testing
+		double rAveDistance =	cHueCoef*qPow(cRAve->channel0 - tRAve->channel0,2) +
+								cSatCoef*qPow(cRAve->channel1 - tRAve->channel1,2) +
+								cValCoef*qPow(cRAve->channel2 - tRAve->channel2,2);
+
+		cRStdDev = controlRegions[rId].getStandardDeviationMoment(); //c = control , R = Region
+		tRStdDev = testingRegions[rId].getStandardDeviationMoment(); //t = testing
+		double rStandardDev =	cHueCoef*(double)qPow(cRStdDev->channel0 - tRStdDev->channel0, 2) +
+								cSatCoef*(double)qPow(cRStdDev->channel1 - tRStdDev->channel1, 2) +
+								cValCoef*(double)qPow(cRStdDev->channel2 - tRStdDev->channel2, 2);
+
+		cRSkew = controlRegions[rId].getSkewnessMoment(); //c = control , R = Region
+		tRSkew = testingRegions[rId].getSkewnessMoment(); //t = testing
+		double rSkewNess =	cHueCoef*(double)qPow(cRSkew->channel0 - tRSkew->channel0, 2) +
+							cSatCoef*(double)qPow(cRSkew->channel1 - tRSkew->channel1, 2) +
+							cValCoef*(double)qPow(cRSkew->channel2 - tRSkew->channel2, 2);
+
+		totalDistanceSquared += regionMap[rId]*(rAveDistance + rStandardDev + rSkewNess);
 	}
-	return 0;
+	totalDistanceSquared = qSqrt(totalDistanceSquared);
+	delete	cRAve;
+	delete	tRAve;
+	delete	cRStdDev;
+	delete	tRStdDev;
+	delete	cRSkew;
+	delete	tRSkew;
+	return totalDistanceSquared;
 }
 
 void caviar_hits::compareAllHits()
@@ -259,23 +298,25 @@ void caviar_hits::compareAllHits()
 
 
 
-	string currentProfileQuery1 = "SELECT control_image,testing_image FROM caviar_hits_comparison";
+	string currentProfileQuery1 = "SELECT control_image,testing_image FROM caviar_hits_comparison WHERE distance IS NULL";
 	ResultSet *imgSpecificResult1 = stmt->executeQuery(currentProfileQuery1);
-	while (imgSpecificResult1->next())
+	int loopCounter = 0;
+	while (imgSpecificResult1->next() && false)//Not used
 	{
 		string control_img_id = imgSpecificResult1->getString(1);
 		string testing_img_id = imgSpecificResult1->getString(2);
 		string mom_q = "SELECT * FROM moments where ";
-		ResultSet *control_img_moments = stmt->executeQuery(mom_q + "control_image= " + control_img_id);
-		ResultSet *testing_img_moments = stmt->executeQuery(mom_q + "testing_image= " + testing_img_id);
-	
-		int regionCounter = 0;
+		string check = mom_q + "img_id= '" + control_img_id + "'";
+		ResultSet *control_img_moments = stmt->executeQuery(mom_q + "img_id= '" + control_img_id+"'");
+		ResultSet *testing_img_moments = stmt->executeQuery(mom_q + "img_id= '" + testing_img_id+"'");
+
 		Blob *blobControl = new Blob();
 		Blob *blobTesting = new Blob();
-		Region *region = new Region();
+		Region *regionControl;
+		Region *regionTesting;
 		while (control_img_moments->next() && testing_img_moments->next()) {
-			Region *regionControl = new Region();
-			Region *regionTesting = new Region();
+			regionControl = new Region();
+			regionTesting = new Region();
 
 			getRegionFromResult(control_img_moments, regionControl);
 			getRegionFromResult(testing_img_moments, regionTesting);
@@ -286,19 +327,27 @@ void caviar_hits::compareAllHits()
 			blobControl->addRegion(regionControl);
 			blobTesting->addRegion(regionTesting);
 
-			
-
-
 		}
-
-
 		double distance = getDistanceBetweenBlobs(blobControl, blobTesting);
-		qDebug() << QString::fromStdString( "The Distance for " + control_img_id + " and " + testing_img_id + "is = " + to_string(distance));
-
+		qDebug() << QString::fromStdString("The Distance for " + testing_img_id + " AND " + control_img_id + " is = " + to_string(distance));
+		string updateDistance = "UPDATE caviar_hits_comparison SET  distance = " + to_string(distance) + 
+								" WHERE control_image='" + control_img_id+ "' AND " +
+								"testing_image='" + testing_img_id+"'" ;
+		stmt->executeUpdate(updateDistance);
+		delete regionControl;
+		delete regionTesting;
 		delete blobControl;
-		delete blobTesting;
+		delete blobTesting; 
+		delete control_img_moments;
+		delete testing_img_moments;
 	}
 	
+	delete imgSpecificResult1;
+
+	string evaluateDistance = "SELECT * FROM caviar_hits_comparison";
+	imgSpecificResult1 = stmt->executeQuery(currentProfileQuery1);
+
+
 
 	
 
